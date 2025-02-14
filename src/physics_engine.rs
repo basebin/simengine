@@ -10,10 +10,10 @@ impl PhysicsEngine {
 
     pub fn simulate(&mut self) {
         // Example logic for running a physics simulation
-        println!("Running physics simulation...");
+        log::info!("Running physics simulation...");
         self.position += 1.0; // Update position
-        println!("Updated position: {}", self.position);
-        println!("Current position: {}", self.get_position()); // Call get_position
+        log::info!("Updated position: {}", self.position);
+        log::info!("Current position: {}", self.get_position()); // Call get_position
     }
 
     pub fn get_position(&self) -> f32 {

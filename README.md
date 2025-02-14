@@ -110,6 +110,20 @@ If you encounter an "Invalid query string" error when calling the API, follow th
 6. **Additional Debugging**:
    - If issues persist, add logging statements in your API handler to check received parameters and any errors.
 
+## Environment Variables
+To run the simulation engine, you may need to set the following environment variables:
+
+- `SIMULATION_ENGINE_LOG_LEVEL`: Sets the log level for the simulation engine. Possible values are `trace`, `debug`, `info`, `warn`, and `error`. Default is `info`.
+- `SIMULATION_ENGINE_CONFIG_PATH`: Path to the configuration file for the simulation engine. Default is `./config.toml`.
+
+### Example
+To set the environment variables and run the simulation engine:
+```bash
+export SIMULATION_ENGINE_LOG_LEVEL=debug
+export SIMULATION_ENGINE_CONFIG_PATH=/path/to/config.toml
+cargo run
+```
+
 ## Contribution Guidelines
 - Contributions are welcome! Please follow the coding standards and submit issues or pull requests.
 
