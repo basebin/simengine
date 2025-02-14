@@ -70,13 +70,19 @@ impl SimulationManager {
         }
     }
 
+    /// Starts a new simulation with the given time step and duration.
+    /// This method spawns a new thread to run the simulation.
     pub fn start_simulation(&self, time_step: f32, duration: f32) {
         let mut simulations = self.simulations.lock().unwrap();
-        let mut new_simulation = Simulation::new(simulations.len() as u32 + 1, time_step, duration); 
-        let simulation_thread = thread::spawn(move || {
-            new_simulation.start();
+        let new_simulation = Arc::new(Mutex::new(Simulation::new(simulations.len() as u32 + 1, time_step, duration)));
+        let _simulation_thread = thread::spawn({
+            let new_simulation = Arc::clone(&new_simulation);
+            move || {
+                let mut simulation = new_simulation.lock().unwrap();
+                simulation.start();
+            }
         });
-        simulations.push(new_simulation);
+        simulations.push((*new_simulation).lock().unwrap().clone());
     }
 
     pub fn stop_simulation(&self) {
