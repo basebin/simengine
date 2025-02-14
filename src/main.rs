@@ -1,3 +1,6 @@
+extern crate log;
+extern crate env_logger;
+
 use warp::Filter;
 use std::sync::Arc;
 
@@ -8,6 +11,7 @@ use simulation_manager::SimulationManager;
 
 #[tokio::main]
 async fn main() {
+    env_logger::init();
     let simulation_manager = Arc::new(SimulationManager::new());
 
     let api = warp::path("api")
