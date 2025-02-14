@@ -72,14 +72,15 @@ impl SimulationManager {
 
     pub fn start_simulation(&self, time_step: f32, duration: f32) {
         let mut simulations = self.simulations.lock().unwrap();
-        let new_simulation = Arc::new(Simulation::new(simulations.len() as u32 + 1, time_step, duration));
+        let new_simulation = Arc::new(Mutex::new(Simulation::new(simulations.len() as u32 + 1, time_step, duration)));
         let _simulation_thread = thread::spawn({
             let new_simulation = Arc::clone(&new_simulation);
             move || {
-                new_simulation.start();
+                let mut simulation = new_simulation.lock().unwrap();
+                simulation.start();
             }
         });
-        simulations.push((*new_simulation).clone());
+        simulations.push((*new_simulation).lock().unwrap().clone());
     }
 
     pub fn stop_simulation(&self) {
