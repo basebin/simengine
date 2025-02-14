@@ -1,0 +1,120 @@
+# Simulation Engine
+
+This is a high-performance simulation engine built in Rust, designed for real-time simulations and integration with internal modeling frameworks.
+
+## Key Features
+- Real-time physics simulations
+- Multi-threaded architecture
+- API for interaction
+- Integration capabilities with other frameworks
+
+## Project Version
+- **Version**: 0.1.0
+
+## Dependencies
+- **tokio**: Version 1 (full features)
+- **rayon**: Version 1.5
+- **cxx**: Version 1.0 (For C++ interoperability)
+- **nalgebra**: Version 0.29 (For high-precision arithmetic)
+- **warp**: Version 0.3
+
+### Development Dependencies
+- **criterion**: Version 0.3 (For benchmarking)
+
+## Getting Started
+### Prerequisites
+- Rust version: 1.84.1
+
+### Installation
+1. Clone the repository:
+   ```bash
+   git clone [repository-url]
+   cd [project-directory]
+   ```
+
+2. Run the project:
+   ```bash
+   cargo run
+   ```
+
+## API Usage
+
+### Starting the Simulation
+To start the simulation, send a GET request to the `/api` endpoint with the following query parameters:
+- **time_step**: The time step for the simulation (e.g., `0.1`)
+- **duration**: The duration of the simulation (e.g., `10.0`)
+
+#### Example Request
+You can use `curl` to make the request:
+```bash
+curl "http://localhost:3030/api?time_step=0.1&duration=10.0"
+```
+
+### Expected Response
+The API will respond with a message indicating that the simulation is starting:
+```
+Starting simulation with time_step: 0.1 and duration: 10.0
+```
+
+## Usage Examples
+- Example API call to start a simulation:
+   ```bash
+   curl "http://localhost:3030/api?time_step=0.1&duration=10.0"
+   ```
+
+## Troubleshooting API Query String Issues
+
+If you encounter an "Invalid query string" error when calling the API, follow these steps to resolve the issue:
+
+1. **Check API Endpoint Implementation**:
+   - Ensure the API endpoint in `src/main.rs` correctly handles query parameters. It should look similar to:
+   ```rust
+   let api = warp::path("api")
+       .and(warp::get())
+       .and(warp::query::<YourQueryStruct>())
+       .map(|params: YourQueryStruct| {
+           // Your logic to start the simulation
+       });
+   ```
+
+2. **Define the Query Struct**:
+   - If not already defined, create a struct to represent the query parameters:
+   ```rust
+   #[derive(Debug, Deserialize)]
+   struct SimulationParams {
+       time_step: f32,
+       duration: f32,
+   }
+   ```
+
+3. **Update the API Logic**:
+   - Ensure the API logic uses the parameters correctly:
+   ```rust
+   .map(|params: SimulationParams| {
+       // Start the simulation using params.time_step and params.duration
+   });
+   ```
+
+4. **Run the Server Again**:
+   - After making changes, save the files and restart the server:
+   ```bash
+   cargo run
+   ```
+
+5. **Test the API Again**:
+   - Once the server is running, try making the `curl` request again:
+   ```bash
+   curl "http://localhost:3030/api?time_step=0.1&duration=10.0"
+   ```
+
+6. **Additional Debugging**:
+   - If issues persist, add logging statements in your API handler to check received parameters and any errors.
+
+## Contribution Guidelines
+- Contributions are welcome! Please follow the coding standards and submit issues or pull requests.
+
+## License
+- This project is licensed under the MIT License.
+
+## Acknowledgments
+- Special thanks to the Rust community and libraries that made this project possible.
