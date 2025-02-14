@@ -326,6 +326,11 @@ To simplify the process of testing the API, you can import the provided Postman 
    - Select the downloaded `postman_collection.json` file.
    - The collection will be imported, and you can use the predefined requests to test the API.
 
+### Summary of Changes
+- Added a Postman collection file `postman_collection.json` with predefined requests for the API endpoints.
+- Updated the `README.md` to include instructions for importing the Postman collection.
+- Added a section in `README.md` under "Checking with Postman" to explain how to use the imported collection.
+
 ## Contribution Guidelines
 - Contributions are welcome! Please follow the coding standards and submit issues or pull requests.
 
