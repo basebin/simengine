@@ -2,6 +2,15 @@
 
 This is a high-performance simulation engine built in Rust, designed for real-time simulations and integration with internal modeling frameworks.
 
+## Terminal
+
+```bash
+# Commands to run the simulation engine
+cargo build
+   Compiling simulation_engine v0.1.0 (/Users/niladridas/Desktop/github/simulation_engine)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 1.75s
+```
+
 ## Key Features
 - Real-time physics simulations
 - Multi-threaded architecture
