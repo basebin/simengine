@@ -17,6 +17,9 @@ This is a high-performance simulation engine built in Rust, designed for real-ti
 - **cxx**: Version 1.0 (For C++ interoperability)
 - **nalgebra**: Version 0.29 (For high-precision arithmetic)
 - **warp**: Version 0.3
+- **serde**: Version 1.0
+- **serde_json**: Version 1.0
+- **serde_derive**: Version 1.0
 
 ### Development Dependencies
 - **criterion**: Version 0.3 (For benchmarking)
@@ -124,6 +127,20 @@ export SIMULATION_ENGINE_CONFIG_PATH=/path/to/config.toml
 cargo run
 ```
 
+## Checking with Postman
+To check the API with Postman, follow these steps:
+
+1. **Create a new request**:
+   - Open Postman and create a new request.
+   - Set the request type to `GET`.
+   - Enter the URL: `http://localhost:3030/api?time_step=0.1&duration=10.0`
+
+2. **Send the request**:
+   - Click the `Send` button to send the request.
+
+3. **Check the response**:
+   - The response should indicate that the simulation is starting.
+
 ## Contribution Guidelines
 - Contributions are welcome! Please follow the coding standards and submit issues or pull requests.
 
@@ -132,3 +149,7 @@ cargo run
 
 ## Acknowledgments
 - Special thanks to the Rust community and libraries that made this project possible.
+
+## Repository Information
+- Repository URL: https://github.com/bniladridas/simulation_engine
+- Directory: simulation_engine
