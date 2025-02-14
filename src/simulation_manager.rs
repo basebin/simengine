@@ -77,7 +77,6 @@ impl SimulationManager {
             new_simulation.start();
         });
         simulations.push(new_simulation);
-        simulation_thread.join().unwrap();
     }
 
     pub fn stop_simulation(&self) {
@@ -106,3 +105,6 @@ impl SimulationManager {
         }
     }
 }
+
+// Repository URL: https://github.com/bniladridas/simulation_engine
+// Directory: src

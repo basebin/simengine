@@ -28,8 +28,8 @@ This is a high-performance simulation engine built in Rust, designed for real-ti
 ### Installation
 1. Clone the repository:
    ```bash
-   git clone [repository-url]
-   cd [project-directory]
+   git clone https://github.com/bniladridas/simulation_engine
+   cd simulation_engine
    ```
 
 2. Run the project:
