@@ -17,6 +17,9 @@ This is a high-performance simulation engine built in Rust, designed for real-ti
 - **cxx**: Version 1.0 (For C++ interoperability)
 - **nalgebra**: Version 0.29 (For high-precision arithmetic)
 - **warp**: Version 0.3
+- **serde**: Version 1.0
+- **serde_json**: Version 1.0
+- **serde_derive**: Version 1.0
 
 ### Development Dependencies
 - **criterion**: Version 0.3 (For benchmarking)
@@ -28,8 +31,8 @@ This is a high-performance simulation engine built in Rust, designed for real-ti
 ### Installation
 1. Clone the repository:
    ```bash
-   git clone [repository-url]
-   cd [project-directory]
+   git clone https://github.com/bniladridas/simulation_engine
+   cd simulation_engine
    ```
 
 2. Run the project:
@@ -110,6 +113,45 @@ If you encounter an "Invalid query string" error when calling the API, follow th
 6. **Additional Debugging**:
    - If issues persist, add logging statements in your API handler to check received parameters and any errors.
 
+## Environment Variables
+To run the simulation engine, you may need to set the following environment variables:
+
+- `SIMULATION_ENGINE_LOG_LEVEL`: Sets the log level for the simulation engine. Possible values are `trace`, `debug`, `info`, `warn`, and `error`. Default is `info`.
+- `SIMULATION_ENGINE_CONFIG_PATH`: Path to the configuration file for the simulation engine. Default is `./config.toml`.
+
+### Example
+To set the environment variables and run the simulation engine:
+```bash
+export SIMULATION_ENGINE_LOG_LEVEL=debug
+export SIMULATION_ENGINE_CONFIG_PATH=/path/to/config.toml
+cargo run
+```
+
+## Checking with Postman
+To check the API with Postman, follow these steps:
+
+1. **Create a new request**:
+   - Open Postman and create a new request.
+   - Set the request type to `GET`.
+   - Enter the URL: `http://localhost:3030/api?time_step=0.1&duration=10.0`
+
+2. **Send the request**:
+   - Click the `Send` button to send the request.
+
+3. **Check the response**:
+   - The response should indicate that the simulation is starting.
+
+### Importing Postman Collection
+To simplify the process of testing the API, you can import the provided Postman collection:
+
+1. **Download the Postman collection file**:
+   - [Download postman_collection.json](./postman_collection.json)
+
+2. **Import the collection into Postman**:
+   - Open Postman and click on the `Import` button.
+   - Select the downloaded `postman_collection.json` file.
+   - The collection will be imported, and you can use the predefined requests to test the API.
+
 ## Contribution Guidelines
 - Contributions are welcome! Please follow the coding standards and submit issues or pull requests.
 
@@ -118,3 +160,7 @@ If you encounter an "Invalid query string" error when calling the API, follow th
 
 ## Acknowledgments
 - Special thanks to the Rust community and libraries that made this project possible.
+
+## Repository Information
+- Repository URL: https://github.com/bniladridas/simulation_engine
+- Directory: simulation_engine

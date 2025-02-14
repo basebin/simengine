@@ -73,7 +73,9 @@ impl SimulationManager {
     pub fn start_simulation(&self, time_step: f32, duration: f32) {
         let mut simulations = self.simulations.lock().unwrap();
         let mut new_simulation = Simulation::new(simulations.len() as u32 + 1, time_step, duration); 
-        new_simulation.start();
+        let simulation_thread = thread::spawn(move || {
+            new_simulation.start();
+        });
         simulations.push(new_simulation);
     }
 
@@ -103,3 +105,6 @@ impl SimulationManager {
         }
     }
 }
+
+// Repository URL: https://github.com/bniladridas/simulation_engine
+// Directory: src
