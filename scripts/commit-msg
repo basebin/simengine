@@ -1,0 +1,25 @@
+#!/bin/bash
+
+COMMIT_MSG_FILE=$1
+
+FIRST_LINE=$(head -n1 "$COMMIT_MSG_FILE")
+
+# Check if starts with conventional type (lowercase letters followed by colon)
+if [[ ! $FIRST_LINE =~ ^[a-z]+: ]]; then
+    echo "Error: Commit message must start with a conventional type (e.g., feat:, fix:, docs:, style:, refactor:, test:, chore:)"
+    exit 1
+fi
+
+# Check if the entire first line is lowercase
+if [[ $FIRST_LINE != $(echo "$FIRST_LINE" | tr '[:upper:]' '[:lower:]') ]]; then
+    echo "Error: Commit message first line must be entirely lowercase"
+    exit 1
+fi
+
+# Check length <= 60 characters
+if [[ ${#FIRST_LINE} -gt 60 ]]; then
+    echo "Error: Commit message first line must be 60 characters or less"
+    exit 1
+fi
+
+exit 0

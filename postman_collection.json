@@ -1,0 +1,109 @@
+{
+	"info": {
+		"_postman_id": "12345678-1234-1234-1234-123456789012",
+		"name": "Simulation Engine API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Start Simulation",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3030/api?time_step=0.1&duration=10.0",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3030",
+					"path": [
+						"api"
+					],
+					"query": [
+						{
+							"key": "time_step",
+							"value": "0.1"
+						},
+						{
+							"key": "duration",
+							"value": "10.0"
+						}
+					]
+				}
+			}
+		},
+		{
+			"name": "Stop Simulation",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3030/stop",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3030",
+					"path": [
+						"stop"
+					]
+				}
+			}
+		},
+		{
+			"name": "Pause Simulation",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3030/pause",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3030",
+					"path": [
+						"pause"
+					]
+				}
+			}
+		},
+		{
+			"name": "Reset Simulation",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3030/reset",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3030",
+					"path": [
+						"reset"
+					]
+				}
+			}
+		},
+		{
+			"name": "Get Simulations",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3030/simulations",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3030",
+					"path": [
+						"simulations"
+					]
+				}
+			}
+		}
+	]
+}
