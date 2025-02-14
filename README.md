@@ -141,6 +141,17 @@ To check the API with Postman, follow these steps:
 3. **Check the response**:
    - The response should indicate that the simulation is starting.
 
+### Importing Postman Collection
+To simplify the process of testing the API, you can import the provided Postman collection:
+
+1. **Download the Postman collection file**:
+   - [Download postman_collection.json](./postman_collection.json)
+
+2. **Import the collection into Postman**:
+   - Open Postman and click on the `Import` button.
+   - Select the downloaded `postman_collection.json` file.
+   - The collection will be imported, and you can use the predefined requests to test the API.
+
 ## Contribution Guidelines
 - Contributions are welcome! Please follow the coding standards and submit issues or pull requests.
 
