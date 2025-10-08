@@ -124,5 +124,78 @@ mod e2e_tests {
         server_handle.abort();
     }
 
-    // Add more e2e tests as needed
+    #[tokio::test]
+    async fn test_e2e_pause_simulation() {
+        let listener = TcpListener::bind("127.0.0.1:0").unwrap();
+        let port = listener.local_addr().unwrap().port();
+        drop(listener);
+
+        let simulation_manager = Arc::new(SimulationManager::new());
+        let api = build_test_api(Arc::clone(&simulation_manager));
+
+        let server_future = warp::serve(api).run(([127, 0, 0, 1], port));
+        let server_handle = task::spawn(server_future);
+
+        tokio::time::sleep(tokio::time::Duration::from_millis(100)).await;
+
+        let client = Client::new();
+        let url = format!("http://127.0.0.1:{}/pause", port);
+        let response = client.get(&url).send().await.unwrap();
+
+        assert_eq!(response.status(), 200);
+        let body = response.text().await.unwrap();
+        assert_eq!(body, "Simulation paused!");
+
+        server_handle.abort();
+    }
+
+    #[tokio::test]
+    async fn test_e2e_reset_simulation() {
+        let listener = TcpListener::bind("127.0.0.1:0").unwrap();
+        let port = listener.local_addr().unwrap().port();
+        drop(listener);
+
+        let simulation_manager = Arc::new(SimulationManager::new());
+        let api = build_test_api(Arc::clone(&simulation_manager));
+
+        let server_future = warp::serve(api).run(([127, 0, 0, 1], port));
+        let server_handle = task::spawn(server_future);
+
+        tokio::time::sleep(tokio::time::Duration::from_millis(100)).await;
+
+        let client = Client::new();
+        let url = format!("http://127.0.0.1:{}/reset", port);
+        let response = client.get(&url).send().await.unwrap();
+
+        assert_eq!(response.status(), 200);
+        let body = response.text().await.unwrap();
+        assert_eq!(body, "Simulation reset!");
+
+        server_handle.abort();
+    }
+
+    #[tokio::test]
+    async fn test_e2e_get_simulations() {
+        let listener = TcpListener::bind("127.0.0.1:0").unwrap();
+        let port = listener.local_addr().unwrap().port();
+        drop(listener);
+
+        let simulation_manager = Arc::new(SimulationManager::new());
+        let api = build_test_api(Arc::clone(&simulation_manager));
+
+        let server_future = warp::serve(api).run(([127, 0, 0, 1], port));
+        let server_handle = task::spawn(server_future);
+
+        tokio::time::sleep(tokio::time::Duration::from_millis(100)).await;
+
+        let client = Client::new();
+        let url = format!("http://127.0.0.1:{}/simulations", port);
+        let response = client.get(&url).send().await.unwrap();
+
+        assert_eq!(response.status(), 200);
+        let body = response.text().await.unwrap();
+        assert!(body.starts_with("Current simulations:"));
+
+        server_handle.abort();
+    }
 }
