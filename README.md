@@ -61,6 +61,51 @@ Run all tests:
 cargo test
 ```
 
+Example output:
+
+```
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.33s
+     Running unittests engine/lib.rs (target/debug/deps/simulation_engine-400ba6fdc07de021)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests engine/main.rs (target/debug/deps/simulation_engine-6c2b0ff9e28da289)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/e2e_tests.rs (target/debug/deps/e2e_tests-11cb2792fb07ec12)
+
+running 5 tests
+test e2e_tests::test_e2e_start_simulation ... ok
+test e2e_tests::test_e2e_pause_simulation ... ok
+test e2e_tests::test_e2e_reset_simulation ... ok
+test e2e_tests::test_e2e_stop_simulation ... ok
+test e2e_tests::test_e2e_get_simulations ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.13s
+
+     Running tests/simulation_tests.rs (target/debug/deps/simulation_tests-98ea053ab1b1cc4d)
+
+running 5 tests
+test tests::test_pause_simulation ... ok
+test tests::test_reset_simulation ... ok
+test tests::test_get_simulations ... ok
+test tests::test_stop_simulation ... ok
+test tests::test_start_simulation ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests simulation_engine
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+```
+
 Run integration tests:
 
 ```bash
