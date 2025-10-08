@@ -42,14 +42,6 @@ jobs:
       - name: Run clippy
         run: cargo clippy -- -D warnings
 
-  e2e:
-    name: E2E Tests
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Run e2e tests
-        run: cargo test --test e2e_tests
-
   e2e-windows:
     name: E2E Tests (Windows)
     runs-on: windows-latest
