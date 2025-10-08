@@ -1,29 +1,27 @@
 #!/bin/bash
+set -e
 
-set -e  # Exit on any error
-
-echo "Running cargo check..."
+echo "Checking..."
 cargo check
 
-echo "Running cargo test..."
+echo "Testing..."
 cargo test
 
-echo "Running cargo fmt --check..."
+echo "Formatting..."
 if ! cargo fmt --all -- --check; then
-    echo "Formatting issues found. Run 'cargo fmt' to fix? (y/N)"
-    read -r response
-    if [[ "$response" =~ ^[Yy]$ ]]; then
-        echo "Running cargo fmt..."
-        cargo fmt
-        echo "Formatting applied. Re-checking..."
-        cargo fmt --all -- --check || echo "Formatting still has issues."
-    else
-        echo "Skipping formatting fix."
-        exit 1
-    fi
+  if [ "$CI" = "true" ]; then
+    echo "Formatting issues found. Run 'cargo fmt' locally."
+    exit 1
+  fi
+  read -p "Fix formatting? (y/N) " r
+  if [[ "$r" =~ ^[Yy]$ ]]; then
+    cargo fmt
+  else
+    exit 1
+  fi
 fi
 
-echo "Running cargo clippy..."
+echo "Linting..."
 cargo clippy -- -D warnings
 
-echo "All checks passed!"
+echo "All checks passed."
