@@ -9,8 +9,8 @@ It provides real-time physics calculations, concurrent simulation management, an
 Rust 1.90.0 or later. Install from [rustup.rs](https://rustup.rs).
 
 ```bash
-git clone https://github.com/bniladridas/simulation_engine
-cd simulation_engine
+git clone https://github.com/bniladridas/simulation-engine
+cd simulation-engine
 cargo run
 ````
 
