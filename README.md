@@ -2,13 +2,6 @@
 
 A high-performance Rust simulation engine for real-time physics simulations with a web API. It provides real-time physics calculations, concurrent simulation management, and a REST API for external control.
 
-## Features
-
-- Real-time physics simulation
-- Concurrent simulation management
-- RESTful web API
-- Built with Rust
-
 ## Quick Start
 
 ### Prerequisites
