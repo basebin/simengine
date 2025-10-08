@@ -2,72 +2,94 @@ name: Rust CI
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [main]
   pull_request:
-    branches: [ "main" ]
+    branches: [main]
 
 env:
   CARGO_TERM_COLOR: always
 
 jobs:
-  check:
-    name: Check
+  lint:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        task: [check, fmt, clippy]
     steps:
       - uses: actions/checkout@v4
-      - name: Check
-        run: cargo check --verbose
+      - uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            target
+          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+          restore-keys: ${{ runner.os }}-cargo-
+      - run: |
+          if [ "${{ matrix.task }}" = "check" ]; then
+            cargo check --verbose
+          elif [ "${{ matrix.task }}" = "fmt" ]; then
+            cargo fmt --all -- --check
+          else
+            cargo clippy -- -D warnings
+          fi
 
   test:
-    name: E2E Tests
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Run tests
-        run: cargo test --verbose
+      - uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            target
+          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+          restore-keys: ${{ runner.os }}-cargo-
+      - run: cargo test --verbose
 
-  fmt:
-    name: Format
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Check formatting
-        run: cargo fmt --all -- --check
-
-  clippy:
-    name: Lint
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Run clippy
-        run: cargo clippy -- -D warnings
-
-  e2e-windows:
-    name: E2E Tests (Windows)
+  e2e_win:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Run e2e tests
-        run: cargo test --test e2e_tests
+      - uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            target
+          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+          restore-keys: ${{ runner.os }}-cargo-
+      - run: cargo test --test e2e_tests --verbose
 
   build:
-    name: Build
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
     steps:
       - uses: actions/checkout@v4
-      - name: Build
-        run: cargo build --release --verbose
-      - name: Bundle binary (Linux/macOS)
-        if: runner.os != 'Windows'
-        run: zip simulation-engine.zip target/release/simulation_engine
-      - name: Bundle binary (Windows)
-        if: runner.os == 'Windows'
-        run: 7z a simulation-engine.zip target/release/simulation_engine.exe
-      - name: Upload artifact
-        uses: actions/upload-artifact@v4
+      - uses: actions/cache@v4
         with:
-          name: simulation-engine-${{ matrix.os }}
-          path: simulation-engine.zip
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            target
+          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+          restore-keys: ${{ runner.os }}-cargo-
+      - run: cargo build --release --verbose
+      - if: runner.os != 'Windows'
+        run: zip build.zip target/release/simulation_engine
+      - if: runner.os == 'Windows'
+        run: 7z a build.zip target/release/simulation_engine.exe
+      - uses: actions/upload-artifact@v4
+        with:
+          name: build-${{ matrix.os }}-${{ github.sha }}
+          path: build.zip
+          retention-days: 7
+
+  docs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: cargo doc --no-deps
