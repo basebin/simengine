@@ -5,11 +5,11 @@ edition = "2021"
 
 [lib]
 name = "simulation_engine"
-path = "src/lib.rs"
+path = "engine/lib.rs"
 
 [[bin]]
 name = "simulation_engine"
-path = "src/main.rs"
+path = "engine/main.rs"
 
 [dependencies]
 tokio = { version = "1", features = ["full"] }
