@@ -80,7 +80,7 @@ Run all quality checks locally (equivalent to CI pipeline):
 This runs:
 - `cargo check` for compilation
 - `cargo test` for unit and integration tests
-- `cargo fmt --check` for code formatting
+- `cargo fmt --check` for code formatting (prompts to auto-fix if issues found)
 - `cargo clippy` for linting with warnings as errors
 
 ## Conventional Commits
