@@ -60,13 +60,12 @@ jobs:
       - uses: actions/checkout@v4
       - name: Build
         run: cargo build --release --verbose
-      - name: Bundle binary
-        run: |
-          if [ "$RUNNER_OS" == "Windows" ]; then
-            7z a simulation-engine.zip target/release/simulation_engine.exe
-          else
-            zip simulation-engine.zip target/release/simulation_engine
-          fi
+      - name: Bundle binary (Linux/macOS)
+        if: runner.os != 'Windows'
+        run: zip simulation-engine.zip target/release/simulation_engine
+      - name: Bundle binary (Windows)
+        if: runner.os == 'Windows'
+        run: 7z a simulation-engine.zip target/release/simulation_engine.exe
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
