@@ -35,7 +35,7 @@ impl Simulation {
         println!("Simulation {} started", self.id);
         while self.state == SimulationState::Running {
             self.update();
-            self.physics_engine.simulate();
+            self.physics_engine.simulate(self.time_step);
             thread::sleep(Duration::from_millis((self.time_step * 1000.0) as u64));
         }
     }

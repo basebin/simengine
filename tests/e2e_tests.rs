@@ -1,10 +1,10 @@
 #[cfg(test)]
 mod e2e_tests {
+    use reqwest::Client;
+    use simulation_engine::managers::simulation_manager::SimulationManager;
     use std::net::TcpListener;
     use std::sync::Arc;
     use tokio::task;
-    use reqwest::Client;
-    use simulation_engine::managers::simulation_manager::SimulationManager;
 
     // Import the build_api function from main.rs
     // Since main.rs is not a lib, we need to duplicate or move to lib.
@@ -12,7 +12,9 @@ mod e2e_tests {
 
     use warp::Filter;
 
-    fn build_test_api(simulation_manager: Arc<SimulationManager>) -> impl Filter<Extract = impl warp::Reply, Error = warp::Rejection> + Clone {
+    fn build_test_api(
+        simulation_manager: Arc<SimulationManager>,
+    ) -> impl Filter<Extract = impl warp::Reply, Error = warp::Rejection> + Clone {
         use serde::Deserialize;
 
         #[derive(Deserialize)]
@@ -33,42 +35,34 @@ mod e2e_tests {
                     "Simulation started!"
                 }
             })
-            .or(warp::path("stop")
-                .and(warp::get())
-                .map({
-                    let simulation_manager = Arc::clone(&simulation_manager);
-                    move || {
-                        simulation_manager.stop_simulation();
-                        "Simulation stopped!"
-                    }
-                }))
-            .or(warp::path("pause")
-                .and(warp::get())
-                .map({
-                    let simulation_manager = Arc::clone(&simulation_manager);
-                    move || {
-                        simulation_manager.pause();
-                        "Simulation paused!"
-                    }
-                }))
-            .or(warp::path("reset")
-                .and(warp::get())
-                .map({
-                    let simulation_manager = Arc::clone(&simulation_manager);
-                    move || {
-                        simulation_manager.reset();
-                        "Simulation reset!"
-                    }
-                }))
-            .or(warp::path("simulations")
-                .and(warp::get())
-                .map({
-                    let simulation_manager = Arc::clone(&simulation_manager);
-                    move || {
-                        let current_simulations = simulation_manager.get_simulations();
-                        format!("Current simulations: {:?}", current_simulations)
-                    }
-                }))
+            .or(warp::path("stop").and(warp::get()).map({
+                let simulation_manager = Arc::clone(&simulation_manager);
+                move || {
+                    simulation_manager.stop_simulation();
+                    "Simulation stopped!"
+                }
+            }))
+            .or(warp::path("pause").and(warp::get()).map({
+                let simulation_manager = Arc::clone(&simulation_manager);
+                move || {
+                    simulation_manager.pause();
+                    "Simulation paused!"
+                }
+            }))
+            .or(warp::path("reset").and(warp::get()).map({
+                let simulation_manager = Arc::clone(&simulation_manager);
+                move || {
+                    simulation_manager.reset();
+                    "Simulation reset!"
+                }
+            }))
+            .or(warp::path("simulations").and(warp::get()).map({
+                let simulation_manager = Arc::clone(&simulation_manager);
+                move || {
+                    let current_simulations = simulation_manager.get_simulations();
+                    format!("Current simulations: {:?}", current_simulations)
+                }
+            }))
     }
 
     #[tokio::test]
