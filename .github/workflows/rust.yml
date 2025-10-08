@@ -49,3 +49,19 @@ jobs:
       - uses: actions/checkout@v4
       - name: Run e2e tests
         run: cargo test --test e2e_tests
+
+  build:
+    name: Build
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build
+        run: cargo build --release --verbose
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: simulation-engine-${{ matrix.os }}
+          path: target/release/simulation_engine
