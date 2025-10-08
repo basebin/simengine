@@ -44,12 +44,13 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
 ### Endpoints
 
-| Method | Endpoint       | Description      |
-| :----- | :------------- | :--------------- |
-| GET    | `/stop`        | Stop simulation  |
-| GET    | `/pause`       | Pause simulation |
-| GET    | `/reset`       | Reset simulation |
-| GET    | `/simulations` | List simulations |
+| Method | Endpoint       | Description                    |
+| :----- | :------------- | :----------------------------- |
+| GET    | `/api`         | Start simulation (with params) |
+| GET    | `/stop`        | Stop simulation                |
+| GET    | `/pause`       | Pause simulation               |
+| GET    | `/reset`       | Reset simulation               |
+| GET    | `/simulations` | List simulations               |
 
 Use the included Postman collection in `api/postman_collection.json` for testing.
 
