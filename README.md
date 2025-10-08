@@ -4,11 +4,7 @@ A high-performance Rust simulation engine for real-time physics simulations with
 
 ## Quick Start
 
-### Prerequisites
-
-Rust 1.90.0 or later. Install from [rustup.rs](https://rustup.rs).
-
-### Installation
+Prerequisites: Rust 1.90.0 or later. Install from [rustup.rs](https://rustup.rs).
 
 ```bash
 git clone https://github.com/bniladridas/simulation_engine
