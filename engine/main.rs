@@ -1,12 +1,12 @@
-extern crate log;
 extern crate env_logger;
+extern crate log;
 
-use warp::Filter;
-use std::sync::Arc;
 use serde::Deserialize;
+use std::sync::Arc;
+use warp::Filter;
 
-mod physics;
 mod managers;
+mod physics;
 
 use managers::simulation_manager::SimulationManager;
 
@@ -16,7 +16,9 @@ pub struct SimulationParams {
     pub duration: Option<f32>,
 }
 
-fn build_api(simulation_manager: Arc<SimulationManager>) -> impl Filter<Extract = impl warp::Reply, Error = warp::Rejection> + Clone {
+fn build_api(
+    simulation_manager: Arc<SimulationManager>,
+) -> impl Filter<Extract = impl warp::Reply, Error = warp::Rejection> + Clone {
     warp::path("api")
         .and(warp::get())
         .and(warp::query::<SimulationParams>())
@@ -29,42 +31,34 @@ fn build_api(simulation_manager: Arc<SimulationManager>) -> impl Filter<Extract 
                 "Simulation started!"
             }
         })
-        .or(warp::path("stop")
-            .and(warp::get())
-            .map({
-                let simulation_manager = Arc::clone(&simulation_manager);
-                move || {
-                    simulation_manager.stop_simulation();
-                    "Simulation stopped!"
-                }
-            }))
-        .or(warp::path("pause")
-            .and(warp::get())
-            .map({
-                let simulation_manager = Arc::clone(&simulation_manager);
-                move || {
-                    simulation_manager.pause();
-                    "Simulation paused!"
-                }
-            }))
-        .or(warp::path("reset")
-            .and(warp::get())
-            .map({
-                let simulation_manager = Arc::clone(&simulation_manager);
-                move || {
-                    simulation_manager.reset();
-                    "Simulation reset!"
-                }
-            }))
-        .or(warp::path("simulations")
-            .and(warp::get())
-            .map({
-                let simulation_manager = Arc::clone(&simulation_manager);
-                move || {
-                    let current_simulations = simulation_manager.get_simulations();
-                    format!("Current simulations: {:?}", current_simulations)
-                }
-            }))
+        .or(warp::path("stop").and(warp::get()).map({
+            let simulation_manager = Arc::clone(&simulation_manager);
+            move || {
+                simulation_manager.stop_simulation();
+                "Simulation stopped!"
+            }
+        }))
+        .or(warp::path("pause").and(warp::get()).map({
+            let simulation_manager = Arc::clone(&simulation_manager);
+            move || {
+                simulation_manager.pause();
+                "Simulation paused!"
+            }
+        }))
+        .or(warp::path("reset").and(warp::get()).map({
+            let simulation_manager = Arc::clone(&simulation_manager);
+            move || {
+                simulation_manager.reset();
+                "Simulation reset!"
+            }
+        }))
+        .or(warp::path("simulations").and(warp::get()).map({
+            let simulation_manager = Arc::clone(&simulation_manager);
+            move || {
+                let current_simulations = simulation_manager.get_simulations();
+                format!("Current simulations: {:?}", current_simulations)
+            }
+        }))
 }
 
 #[tokio::main]

@@ -1,10 +1,10 @@
 #[cfg(test)]
 mod tests {
+    use serde::Deserialize;
     use simulation_engine::managers::simulation_manager::SimulationManager;
-    use warp::Filter;
     use std::sync::Arc;
     use tokio::runtime::Runtime;
-    use serde::Deserialize;
+    use warp::Filter;
 
     #[derive(Deserialize)]
     struct SimulationParams {
@@ -48,15 +48,13 @@ mod tests {
         rt.block_on(async {
             let simulation_manager = Arc::new(SimulationManager::new());
 
-            let api = warp::path("stop")
-                .and(warp::get())
-                .map({
-                    let simulation_manager = Arc::clone(&simulation_manager);
-                    move || {
-                        simulation_manager.stop_simulation();
-                        "Simulation stopped!"
-                    }
-                });
+            let api = warp::path("stop").and(warp::get()).map({
+                let simulation_manager = Arc::clone(&simulation_manager);
+                move || {
+                    simulation_manager.stop_simulation();
+                    "Simulation stopped!"
+                }
+            });
 
             let filter = warp::test::request()
                 .method("GET")
@@ -75,15 +73,13 @@ mod tests {
         rt.block_on(async {
             let simulation_manager = Arc::new(SimulationManager::new());
 
-            let api = warp::path("pause")
-                .and(warp::get())
-                .map({
-                    let simulation_manager = Arc::clone(&simulation_manager);
-                    move || {
-                        simulation_manager.pause();
-                        "Simulation paused!"
-                    }
-                });
+            let api = warp::path("pause").and(warp::get()).map({
+                let simulation_manager = Arc::clone(&simulation_manager);
+                move || {
+                    simulation_manager.pause();
+                    "Simulation paused!"
+                }
+            });
 
             let filter = warp::test::request()
                 .method("GET")
@@ -102,15 +98,13 @@ mod tests {
         rt.block_on(async {
             let simulation_manager = Arc::new(SimulationManager::new());
 
-            let api = warp::path("reset")
-                .and(warp::get())
-                .map({
-                    let simulation_manager = Arc::clone(&simulation_manager);
-                    move || {
-                        simulation_manager.reset();
-                        "Simulation reset!"
-                    }
-                });
+            let api = warp::path("reset").and(warp::get()).map({
+                let simulation_manager = Arc::clone(&simulation_manager);
+                move || {
+                    simulation_manager.reset();
+                    "Simulation reset!"
+                }
+            });
 
             let filter = warp::test::request()
                 .method("GET")
@@ -129,15 +123,13 @@ mod tests {
         rt.block_on(async {
             let simulation_manager = Arc::new(SimulationManager::new());
 
-            let api = warp::path("simulations")
-                .and(warp::get())
-                .map({
-                    let simulation_manager = Arc::clone(&simulation_manager);
-                    move || {
-                        let current_simulations = simulation_manager.get_simulations();
-                        format!("Current simulations: {:?}", current_simulations)
-                    }
-                });
+            let api = warp::path("simulations").and(warp::get()).map({
+                let simulation_manager = Arc::clone(&simulation_manager);
+                move || {
+                    let current_simulations = simulation_manager.get_simulations();
+                    format!("Current simulations: {:?}", current_simulations)
+                }
+            });
 
             let filter = warp::test::request()
                 .method("GET")

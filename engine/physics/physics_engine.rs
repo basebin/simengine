@@ -1,6 +1,6 @@
 #[derive(Clone, Debug)]
 pub struct PhysicsEngine {
-    position: f32, 
+    position: f32,
 }
 
 impl PhysicsEngine {

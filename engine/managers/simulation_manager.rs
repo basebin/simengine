@@ -1,7 +1,7 @@
+use crate::physics::physics_engine::PhysicsEngine;
 use std::sync::{Arc, Mutex};
 use std::thread;
 use std::time::Duration;
-use crate::physics::physics_engine::PhysicsEngine;
 
 #[derive(Clone, Debug, PartialEq)]
 pub enum SimulationState {
@@ -74,7 +74,11 @@ impl SimulationManager {
     /// This method spawns a new thread to run the simulation.
     pub fn start_simulation(&self, time_step: f32, duration: f32) {
         let mut simulations = self.simulations.lock().unwrap();
-        let new_simulation = Arc::new(Mutex::new(Simulation::new(simulations.len() as u32 + 1, time_step, duration)));
+        let new_simulation = Arc::new(Mutex::new(Simulation::new(
+            simulations.len() as u32 + 1,
+            time_step,
+            duration,
+        )));
         let _simulation_thread = thread::spawn({
             let new_simulation = Arc::clone(&new_simulation);
             move || {
@@ -95,7 +99,10 @@ impl SimulationManager {
 
     pub fn get_simulations(&self) -> Vec<Simulation> {
         let simulations = self.simulations.lock().unwrap();
-        simulations.iter().map(|arc| arc.lock().unwrap().clone()).collect()
+        simulations
+            .iter()
+            .map(|arc| arc.lock().unwrap().clone())
+            .collect()
     }
 
     pub fn pause(&self) {
