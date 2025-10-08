@@ -26,3 +26,4 @@ env_logger = "0.9"
 
 [dev-dependencies]
 criterion = { version = "0.3", features = ["default"] } # For benchmarking
+reqwest = { version = "0.12", features = ["json"] } # For e2e testing
