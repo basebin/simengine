@@ -329,6 +329,35 @@ To simplify the process of testing the API, you can import the provided Postman 
 ## Contribution Guidelines
 - Contributions are welcome! Please follow the coding standards and submit issues or pull requests.
 
+## Conventional Commits
+
+This project uses conventional commit standards to ensure consistent and meaningful commit messages.
+
+### Setup
+
+1. Copy the commit-msg hook to enable enforcement:
+   ```bash
+   cp scripts/commit-msg .git/hooks/commit-msg
+   chmod +x .git/hooks/commit-msg
+   ```
+
+2. For existing repositories, use the rewrite script to clean up history:
+   ```bash
+   git filter-branch --msg-filter 'scripts/rewrite_msg.sh' -- --all
+   git push --force-with-lease
+   ```
+
+### Usage
+
+Commit messages must:
+- Start with a conventional type (e.g., `feat:`, `fix:`, `docs:`, `style:`, `refactor:`, `test:`, `chore:`)
+- Be entirely lowercase
+- Have a first line of 60 characters or less
+
+Example: `feat: add new simulation endpoint`
+
+The hook will reject commits that don't follow these rules.
+
 ## License
 - This project is licensed under the MIT License.
 
