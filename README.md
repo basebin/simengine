@@ -51,7 +51,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 | GET    | `/reset`       | Reset simulation |
 | GET    | `/simulations` | List simulations |
 
-Use the included Postman collection for testing.
+Use the included Postman collection in `api/postman_collection.json` for testing.
 
 ## Testing
 
