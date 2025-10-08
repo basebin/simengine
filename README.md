@@ -1,113 +1,87 @@
 # Simulation Engine
 
-Welcome to the Simulation Engine! 🚀
+A high-performance Rust simulation engine for real-time physics simulations with a web API.
 
-This high-performance Rust-based project lets you run real-time physics simulations with an easy-to-use web API. Perfect for developers wanting to add simulation capabilities to their apps.
+## Features
 
-## What it does
-
-- ⚡ Runs physics simulations in real-time
-- 🔄 Manages multiple simulations at once
-- 🌐 Provides a simple REST API for control
-- 🦀 Built with Rust for speed and reliability
-
-## Quick Start
+- Real-time physics simulation
+- Concurrent simulation management
+- RESTful web API
+- Built with Rust
 
 ## Quick Start
 
 ### Prerequisites
-- Rust 1.90.0 or later (install from [rustup.rs](https://rustup.rs))
+
+Rust 1.90.0 or later. Install from [rustup.rs](https://rustup.rs).
 
 ### Installation
+
 ```bash
 git clone https://github.com/bniladridas/simulation_engine
 cd simulation_engine
 cargo run
 ```
-The server will start on `http://localhost:3030`. You're ready to simulate! 🎉
+
+The server starts on `http://localhost:3030`.
 
 ## API Usage
 
-Start your first simulation:
+Start a simulation:
+
 ```bash
 curl "http://localhost:3030/api?time_step=0.1&duration=10.0"
 ```
 
-Control your simulations:
-- `GET /stop` - Stop the current simulation
-- `GET /pause` - Pause it
-- `GET /reset` - Reset to start
-- `GET /simulations` - See all running simulations
+Endpoints:
 
-Try it out with the included Postman collection! 📡
+- `GET /stop` - Stop simulation
+- `GET /pause` - Pause simulation
+- `GET /reset` - Reset simulation
+- `GET /simulations` - List simulations
+
+Use the included Postman collection for testing.
 
 ## Testing
 
-We take testing seriously! Run the full test suite:
+Run all tests:
+
 ```bash
 cargo test
 ```
-```
-running 5 tests
-... (tests pass)
-test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out
-running 5 tests
-... (tests pass)
-test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out
-```
 
-For integration tests only:
+Run integration tests:
+
 ```bash
 cargo test --test simulation_tests
 ```
-```
-running 5 tests
-test tests::test_get_simulations ... ok
-test tests::test_pause_simulation ... ok
-test tests::test_reset_simulation ... ok
-test tests::test_start_simulation ... ok
-test tests::test_stop_simulation ... ok
-test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out
-```
 
-For end-to-end tests:
+Run end-to-end tests:
+
 ```bash
 cargo test --test e2e_tests
 ```
-```
-running 5 tests
-test e2e_tests::test_e2e_reset_simulation ... ok
-test e2e_tests::test_e2e_pause_simulation ... ok
-test e2e_tests::test_e2e_start_simulation ... ok
-test e2e_tests::test_e2e_get_simulations ... ok
-test e2e_tests::test_e2e_stop_simulation ... ok
-test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out
-```
 
-Covers:
-- 5 integration tests for API endpoints (using warp::test)
-- 5 e2e tests for API endpoints (using real HTTP requests with reqwest)
-
-All tests passing means everything works! ✅
+Includes 5 integration tests and 5 end-to-end tests for API endpoints.
 
 ## Conventional Commits
 
-We follow conventional commits for clean git history.
-
 ### Setup
+
 ```bash
 cp scripts/commit-msg .git/hooks/commit-msg
 chmod +x .git/hooks/commit-msg
 ```
 
 ### Rules
+
 - Start with type: `feat:`, `fix:`, `docs:`, `refactor:`, `chore:`
-- All lowercase, max 60 characters
+- Lowercase, max 60 characters
 
 ## Contributing
 
-Got ideas? Open an issue or PR! Let's build something amazing together. 🤝
+Open issues or pull requests.
 
 ## License
 
-MIT - Free to use, modify, and distribute! 📄
+MIT
