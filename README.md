@@ -33,7 +33,7 @@ Start a simulation:
 curl "http://localhost:3030/api?time_step=0.1&duration=10.0"
 ```
 
-Example in Python:
+Example in Python (requires `requests`):
 
 ```python
 import requests
@@ -45,6 +45,24 @@ print(response.text)  # "Simulation started!"
 # Stop simulation
 response = requests.get("http://localhost:3030/stop")
 print(response.text)  # "Simulation stopped!"
+```
+
+Example in Rust (using reqwest):
+
+```rust
+use reqwest::blocking;
+
+fn main() -> Result<(), Box<dyn std::error::Error>> {
+    // Start simulation
+    let resp = blocking::get("http://localhost:3030/api?time_step=0.1&duration=10.0")?;
+    println!("{}", resp.text()?);  // "Simulation started!"
+
+    // Stop simulation
+    let resp = blocking::get("http://localhost:3030/stop")?;
+    println!("{}", resp.text()?);  // "Simulation stopped!"
+
+    Ok(())
+}
 ```
 
 Endpoints:
