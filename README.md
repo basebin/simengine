@@ -120,6 +120,20 @@ cargo test --test e2e_tests
 
 Includes 5 integration tests and 5 end-to-end tests for API endpoints.
 
+## Local CI
+
+Run all quality checks locally (equivalent to CI pipeline):
+
+```bash
+./scripts/ci.sh
+```
+
+This runs:
+- `cargo check` for compilation
+- `cargo test` for unit and integration tests
+- `cargo fmt --check` for code formatting
+- `cargo clippy` for linting with warnings as errors
+
 ## Conventional Commits
 
 ### Setup
