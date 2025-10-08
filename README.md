@@ -34,7 +34,9 @@ Run the test suite:
 cargo test
 ```
 
-Includes 5 integration tests for API endpoints.
+Includes:
+- 5 integration tests for API endpoints (using warp::test)
+- 5 e2e tests for API endpoints (using real HTTP requests with reqwest)
 
 ## Conventional Commits
 
