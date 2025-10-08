@@ -27,6 +27,15 @@ Other endpoints:
 - `GET /reset` - Reset simulation
 - `GET /simulations` - List simulations
 
+## Testing
+
+Run the test suite:
+```bash
+cargo test
+```
+
+Includes 5 integration tests for API endpoints.
+
 ## Conventional Commits
 
 This project uses conventional commits.
