@@ -1,9 +1,16 @@
 #[cfg(test)]
 mod tests {
-    // use super::*;
+    use simulation_engine::simulation_manager::SimulationManager;
     use warp::Filter;
     use std::sync::Arc;
     use tokio::runtime::Runtime;
+    use serde::Deserialize;
+
+    #[derive(Deserialize)]
+    struct SimulationParams {
+        time_step: Option<f32>,
+        duration: Option<f32>,
+    }
 
     #[test]
     fn test_start_simulation() {
@@ -13,12 +20,12 @@ mod tests {
 
             let api = warp::path("api")
                 .and(warp::get())
-                .and(warp::query::<(Option<f32>, Option<f32>)>())
+                .and(warp::query::<SimulationParams>())
                 .map({
                     let simulation_manager = Arc::clone(&simulation_manager);
-                    move |(time_step, duration): (Option<f32>, Option<f32>)| {
-                        let time_step = time_step.unwrap_or(0.1);
-                        let duration = duration.unwrap_or(10.0);
+                    move |params: SimulationParams| {
+                        let time_step = params.time_step.unwrap_or(0.1);
+                        let duration = params.duration.unwrap_or(10.0);
                         simulation_manager.start_simulation(time_step, duration);
                         "Simulation started!"
                     }

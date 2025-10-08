@@ -60,7 +60,7 @@ impl Simulation {
 
 #[derive(Clone)]
 pub struct SimulationManager {
-    simulations: Arc<Mutex<Vec<Simulation>>>,
+    simulations: Arc<Mutex<Vec<Arc<Mutex<Simulation>>>>>,
 }
 
 impl SimulationManager {
@@ -82,19 +82,20 @@ impl SimulationManager {
                 simulation.start();
             }
         });
-        simulations.push((*new_simulation).lock().unwrap().clone());
+        simulations.push(Arc::clone(&new_simulation));
     }
 
     pub fn stop_simulation(&self) {
         let mut simulations = self.simulations.lock().unwrap();
-        if !simulations.is_empty() {
-            simulations.pop();
+        if let Some(sim_arc) = simulations.last() {
+            sim_arc.lock().unwrap().state = SimulationState::Stopped;
         }
+        simulations.pop();
     }
 
     pub fn get_simulations(&self) -> Vec<Simulation> {
         let simulations = self.simulations.lock().unwrap();
-        simulations.clone()
+        simulations.iter().map(|arc| arc.lock().unwrap().clone()).collect()
     }
 
     pub fn pause(&self) {

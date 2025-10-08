@@ -3,6 +3,14 @@ name = "simulation_engine"
 version = "0.1.0"
 edition = "2021"
 
+[lib]
+name = "simulation_engine"
+path = "src/lib.rs"
+
+[[bin]]
+name = "simulation_engine"
+path = "src/main.rs"
+
 [dependencies]
 tokio = { version = "1", features = ["full"] }
 rayon = "1.5"

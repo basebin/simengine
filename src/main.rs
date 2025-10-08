@@ -3,11 +3,18 @@ extern crate env_logger;
 
 use warp::Filter;
 use std::sync::Arc;
+use serde::Deserialize;
 
 mod simulation_manager;
 mod physics_engine;
 
 use simulation_manager::SimulationManager;
+
+#[derive(Deserialize)]
+struct SimulationParams {
+    time_step: Option<f32>,
+    duration: Option<f32>,
+}
 
 #[tokio::main]
 async fn main() {
@@ -16,12 +23,12 @@ async fn main() {
 
     let api = warp::path("api")
         .and(warp::get())
-        .and(warp::query::<(Option<f32>, Option<f32>)>())
+        .and(warp::query::<SimulationParams>())
         .map({
             let simulation_manager = Arc::clone(&simulation_manager);
-            move |(time_step, duration): (Option<f32>, Option<f32>)| {
-                let time_step = time_step.unwrap_or(0.1);
-                let duration = duration.unwrap_or(10.0);
+            move |params: SimulationParams| {
+                let time_step = params.time_step.unwrap_or(0.1);
+                let duration = params.duration.unwrap_or(10.0);
                 simulation_manager.start_simulation(time_step, duration);
                 "Simulation started!"
             }
@@ -64,6 +71,4 @@ async fn main() {
             }));
 
     warp::serve(api).run(([127, 0, 0, 1], 3030)).await;
-
-    println!("Server running on http://127.0.0.1:3030");
 }
