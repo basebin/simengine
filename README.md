@@ -33,19 +33,42 @@ Run all tests:
 ```bash
 cargo test
 ```
-Output: 10 tests passed (5 integration + 5 e2e)
+```
+running 5 tests
+... (tests pass)
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out
+running 5 tests
+... (tests pass)
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out
+```
 
 Run integration tests only:
 ```bash
 cargo test --test simulation_tests
 ```
-Output: 5 tests passed
+```
+running 5 tests
+test tests::test_get_simulations ... ok
+test tests::test_pause_simulation ... ok
+test tests::test_reset_simulation ... ok
+test tests::test_start_simulation ... ok
+test tests::test_stop_simulation ... ok
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out
+```
 
 Run e2e tests only:
 ```bash
 cargo test --test e2e_tests
 ```
-Output: 5 tests passed
+```
+running 5 tests
+test e2e_tests::test_e2e_reset_simulation ... ok
+test e2e_tests::test_e2e_pause_simulation ... ok
+test e2e_tests::test_e2e_start_simulation ... ok
+test e2e_tests::test_e2e_get_simulations ... ok
+test e2e_tests::test_e2e_stop_simulation ... ok
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out
+```
 
 Includes:
 - 5 integration tests for API endpoints (using warp::test)
