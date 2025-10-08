@@ -1,0 +1,14 @@
+# Rust formatting configuration
+# See: https://rust-lang.github.io/rustfmt/
+
+# Edition
+edition = "2021"
+
+# Line width
+max_width = 100
+
+# Use spaces instead of tabs
+hard_tabs = false
+
+# Tab spaces
+tab_spaces = 4

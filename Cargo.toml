@@ -2,6 +2,11 @@
 name = "simulation_engine"
 version = "0.1.0"
 edition = "2021"
+description = "A high-performance Rust engine for real-time physics simulations"
+license = "MIT"
+repository = "https://github.com/bniladridas/simulation-engine"
+keywords = ["physics", "simulation", "real-time", "rust"]
+categories = ["science", "simulation"]
 
 [lib]
 name = "simulation_engine"
@@ -14,7 +19,6 @@ path = "engine/main.rs"
 [dependencies]
 tokio = { version = "1", features = ["full"] }
 rayon = "1.5"
-cxx = "1.0" # For C++ interoperability
 nalgebra = "0.29" # For high-precision arithmetic
 warp = "0.3"
 serde = { version = "1.0", features = ["derive"] }
@@ -22,7 +26,18 @@ serde_json = "1.0"
 serde_derive = "1.0"
 log = "0.4"
 env_logger = "0.9"
-# atty = "0.2.14"
+pyo3 = { version = "0.20", optional = true }
+
+[features]
+python = ["pyo3"]
+cxx = ["dep:cxx", "cxx-build"]
+
+[build-dependencies]
+cxx-build = { version = "1.0", optional = true }
+
+[dependencies.cxx]
+version = "1.0"
+optional = true
 
 [dev-dependencies]
 criterion = { version = "0.3", features = ["default"] } # For benchmarking

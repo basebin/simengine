@@ -1,0 +1,20 @@
+[package]
+name = "simulation_engine_examples"
+version = "0.1.0"
+edition = "2021"
+
+[[bin]]
+name = "basic_simulation"
+path = "basic_simulation.rs"
+
+[[bin]]
+name = "custom_physics"
+path = "custom_physics.rs"
+
+[[bin]]
+name = "data_cleaner"
+path = "data_cleaner.rs"
+
+[dependencies]
+simulation_engine = { path = ".." }
+nalgebra = "0.29"

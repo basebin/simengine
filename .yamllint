@@ -1,0 +1,48 @@
+---
+# YAML linting configuration
+# See: https://yamllint.readthedocs.io/en/stable/configuration.html
+
+extends: default
+
+rules:
+  # Allow longer lines for readability in CI/CD
+  line-length:
+    max: 120
+    level: warning
+
+  # Allow empty values in mappings
+  empty-values:
+    forbid-in-block-mappings: false
+    forbid-in-flow-mappings: false
+
+  # Allow truthy values
+  truthy:
+    allowed-values:
+      - 'true'
+      - 'false'
+      - 'on'
+      - 'off'
+      - 'yes'
+      - 'no'
+    check-keys: false
+
+  # Allow comments
+  comments:
+    require-starting-space: false
+    ignore-shebangs: true
+
+  # Allow indentation variations for readability
+  indentation:
+    spaces: 2
+    indent-sequences: true
+    check-multi-line-strings: false
+
+  # Allow trailing spaces in empty lines
+  empty-lines:
+    max-start: 1
+    max-end: 1
+    max: 2
+
+  # Allow brackets in flow style
+  brackets:
+    forbid: false

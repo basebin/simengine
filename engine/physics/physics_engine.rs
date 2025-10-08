@@ -138,52 +138,61 @@ impl PhysicsEngine {
     pub fn get_objects(&self) -> &Vec<Object> {
         &self.objects
     }
+
+    #[allow(dead_code)]
+    pub fn get_objects_mut(&mut self) -> &mut Vec<Object> {
+        &mut self.objects
+    }
 }
 
-// #[cfg(test)]
-// mod tests {
-//     use super::*;
+#[cfg(test)]
+mod tests {
+    use super::*;
 
-//     #[test]
-//     fn test_gravity() {
-//         let mut engine = PhysicsEngine::new();
-//         let time_step = 0.1;
-//         engine.simulate(time_step);
-//         // After one step, velocity.y should be gravity.y * time_step
-//         let expected_velocity_y = -9.81 * time_step;
-//         assert!((engine.objects[0].velocity.y - expected_velocity_y).abs() < 0.01);
-//         // Position.y should be velocity.y * time_step
-//         let expected_position_y = expected_velocity_y * time_step;
-//         assert!((engine.objects[0].position.y - expected_position_y).abs() < 0.01);
-//         // x should remain 0
-//         assert!((engine.objects[0].position.x).abs() < 0.01);
-//     }
+    #[test]
+    fn test_gravity() {
+        let mut engine = PhysicsEngine::new();
+        let time_step = 0.1;
+        engine.simulate(time_step);
+        // After one step, velocity.y should be gravity.y * time_step
+        let expected_velocity_y = -9.81 * time_step;
+        assert!((engine.objects[0].velocity.y - expected_velocity_y).abs() < 0.01);
+        // Position.y should be velocity.y * time_step
+        let expected_position_y = expected_velocity_y * time_step;
+        assert!((engine.objects[0].position.y - expected_position_y).abs() < 0.01);
+        // x should remain 0
+        assert!((engine.objects[0].position.x).abs() < 0.01);
+    }
 
-//     #[test]
-//     fn test_wall_collision() {
-//         let mut engine = PhysicsEngine::new();
-//         engine.objects[0].position.x = 99.5;
-//         engine.objects[0].velocity.x = 10.0; // towards upper bound
-//         let time_step = 0.1;
-//         engine.simulate(time_step);
-//         // Should bounce off upper bound
-//         assert!((engine.objects[0].position.x - 100.0).abs() < 0.01);
-//         assert!(engine.objects[0].velocity.x < 0.0); // reversed and dampened
-//     }
+    #[test]
+    fn test_wall_collision() {
+        let mut engine = PhysicsEngine::new();
+        engine.objects[0].position.x = 99.5;
+        engine.objects[0].velocity.x = 10.0; // towards upper bound
+        let time_step = 0.1;
+        engine.simulate(time_step);
+        // Should bounce off upper bound
+        assert!((engine.objects[0].position.x - 100.0).abs() < 0.01);
+        assert!(engine.objects[0].velocity.x < 0.0); // reversed and dampened
+    }
 
-//     #[test]
-//     fn test_object_collision() {
-//         let mut engine = PhysicsEngine::new();
-//         engine.set_gravity(Vector2::zeros()); // disable gravity for this test
-//         engine.add_object(Vector2::new(1.0, 0.0), Vector2::new(-5.0, 0.0), 1.0); // second object at position (1,0), moving left
-//         // First object at (0,0), velocity (0,0)
-//         engine.objects[0].velocity = Vector2::zeros();
-//         engine.simulate(0.1);
-//         // Positions: (0,0) + (0,0) = (0,0), (1,0) + (-5*0.1,0) = (0.5,0)
-//         // Distance 0.5 < 1, collide
-//         // v1=(0,0), v2=(-5,0), m1=1, m2=1
-//         // new_v1.x = -5, new_v2.x = 0
-//         assert!((engine.objects[0].velocity.x + 5.0).abs() < 0.01);
-//         assert!(engine.objects[1].velocity.x.abs() < 0.01);
-//     }
-// }
+    #[test]
+    fn test_add_object() {
+        let mut engine = PhysicsEngine::new();
+        let initial_count = engine.objects.len();
+        engine.add_object(Vector2::new(1.0, 2.0), Vector2::new(3.0, 4.0), 5.0);
+        assert_eq!(engine.objects.len(), initial_count + 1);
+        let obj = &engine.objects[1];
+        assert_eq!(obj.position, Vector2::new(1.0, 2.0));
+        assert_eq!(obj.velocity, Vector2::new(3.0, 4.0));
+        assert_eq!(obj.mass, 5.0);
+    }
+
+    #[test]
+    fn test_set_gravity() {
+        let mut engine = PhysicsEngine::new();
+        let new_gravity = Vector2::new(0.0, -5.0);
+        engine.set_gravity(new_gravity);
+        assert_eq!(engine.gravity, new_gravity);
+    }
+}

@@ -24,4 +24,11 @@ fi
 echo "Linting..."
 cargo clippy -- -D warnings
 
+echo "YAML linting..."
+if command -v yamllint >/dev/null 2>&1; then
+    yamllint .github/workflows/*.yml
+else
+    echo "yamllint not found, skipping YAML checks"
+fi
+
 echo "All checks passed."

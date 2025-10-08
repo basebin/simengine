@@ -1,3 +1,4 @@
+---
 name: Rust CI
 
 on:
@@ -10,11 +11,15 @@ env:
   CARGO_TERM_COLOR: always
 
 jobs:
-  lint:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        task: [check, fmt, clippy]
+   lint:
+     runs-on: ubuntu-latest
+     strategy:
+       matrix:
+         task:
+           - check
+           - fmt
+           - clippy
+           - yaml
     steps:
       - uses: actions/checkout@v4
       - uses: actions/cache@v4
@@ -30,8 +35,12 @@ jobs:
             cargo check --verbose
           elif [ "${{ matrix.task }}" = "fmt" ]; then
             cargo fmt --all -- --check
-          else
+          elif [ "${{ matrix.task }}" = "clippy" ]; then
             cargo clippy -- -D warnings
+          else
+            # YAML linting
+            sudo apt-get update && sudo apt-get install -y yamllint
+            yamllint .github/workflows/*.yml
           fi
 
   test:
