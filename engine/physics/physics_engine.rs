@@ -55,6 +55,7 @@ impl PhysicsEngine {
         self.gravity = gravity;
     }
 
+    #[allow(dead_code)]
     fn handle_collisions(&mut self) {
         let len = self.objects.len();
         for i in 0..len {
