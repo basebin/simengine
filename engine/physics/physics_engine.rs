@@ -187,5 +187,3 @@ impl PhysicsEngine {
 //         assert!(engine.objects[1].velocity.x.abs() < 0.01);
 //     }
 // }
-
-

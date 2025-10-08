@@ -125,5 +125,3 @@ impl SimulationManager {
         }
     }
 }
-
-
