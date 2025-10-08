@@ -29,9 +29,19 @@ Other endpoints:
 
 ## Testing
 
-Run the test suite:
+Run all tests:
 ```bash
 cargo test
+```
+
+Run integration tests only:
+```bash
+cargo test --test simulation_tests
+```
+
+Run e2e tests only:
+```bash
+cargo test --test e2e_tests
 ```
 
 Includes:
