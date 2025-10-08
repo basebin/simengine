@@ -19,7 +19,7 @@ jobs:
         run: cargo check --verbose
 
   test:
-    name: Test
+    name: E2E Tests
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
