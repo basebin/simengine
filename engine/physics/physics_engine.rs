@@ -2,15 +2,20 @@ use nalgebra::Vector2;
 
 #[derive(Clone, Debug)]
 pub struct Object {
-     pub position: Vector2<f32>,
-     pub velocity: Vector2<f32>,
-     pub mass: f32,
-     pub radius: f32,
- }
+    pub position: Vector2<f32>,
+    pub velocity: Vector2<f32>,
+    pub mass: f32,
+    pub radius: f32,
+}
 
 impl Object {
     pub fn new(position: Vector2<f32>, velocity: Vector2<f32>, mass: f32) -> Self {
-        Object { position, velocity, mass, radius: 0.5 }
+        Object {
+            position,
+            velocity,
+            mass,
+            radius: 0.5,
+        }
     }
 }
 
@@ -30,7 +35,11 @@ impl Default for PhysicsEngine {
 impl PhysicsEngine {
     pub fn new() -> Self {
         PhysicsEngine {
-            objects: vec![Object::new(Vector2::new(0.0, 0.0), Vector2::new(0.0, 0.0), 1.0)], // default object
+            objects: vec![Object::new(
+                Vector2::new(0.0, 0.0),
+                Vector2::new(0.0, 0.0),
+                1.0,
+            )], // default object
             gravity: Vector2::new(0.0, -9.81), // downward acceleration
             bounds: (Vector2::new(-100.0, -100.0), Vector2::new(100.0, 100.0)),
         }
@@ -69,7 +78,8 @@ impl PhysicsEngine {
                         continue; // objects separating
                     }
                     let restitution = 1.0; // elastic
-                    let impulse_scalar = -(1.0 + restitution) * velocity_along_normal / (1.0 / m1 + 1.0 / m2);
+                    let impulse_scalar =
+                        -(1.0 + restitution) * velocity_along_normal / (1.0 / m1 + 1.0 / m2);
                     let impulse = impulse_scalar * normal;
                     self.objects[i].velocity += impulse / m1;
                     self.objects[j].velocity -= impulse / m2;
@@ -111,11 +121,15 @@ impl PhysicsEngine {
             }
         }
 
-         // Handle object-object collisions
-         // self.handle_collisions();
+        // Handle object-object collisions
+        // self.handle_collisions();
 
         for obj in &self.objects {
-            log::info!("Object position: {:?}, velocity: {:?}", obj.position, obj.velocity);
+            log::info!(
+                "Object position: {:?}, velocity: {:?}",
+                obj.position,
+                obj.velocity
+            );
         }
     }
 
