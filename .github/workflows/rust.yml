@@ -50,6 +50,14 @@ jobs:
       - name: Run e2e tests
         run: cargo test --test e2e_tests
 
+  e2e-windows:
+    name: E2E Tests (Windows)
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run e2e tests
+        run: cargo test --test e2e_tests
+
   build:
     name: Build
     runs-on: ${{ matrix.os }}
