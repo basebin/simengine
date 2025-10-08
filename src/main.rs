@@ -11,17 +11,13 @@ mod managers;
 use managers::simulation_manager::SimulationManager;
 
 #[derive(Deserialize)]
-struct SimulationParams {
-    time_step: Option<f32>,
-    duration: Option<f32>,
+pub struct SimulationParams {
+    pub time_step: Option<f32>,
+    pub duration: Option<f32>,
 }
 
-#[tokio::main]
-async fn main() {
-    env_logger::init();
-    let simulation_manager = Arc::new(SimulationManager::new());
-
-    let api = warp::path("api")
+fn build_api(simulation_manager: Arc<SimulationManager>) -> impl Filter<Extract = impl warp::Reply, Error = warp::Rejection> + Clone {
+    warp::path("api")
         .and(warp::get())
         .and(warp::query::<SimulationParams>())
         .map({
@@ -68,7 +64,15 @@ async fn main() {
                     let current_simulations = simulation_manager.get_simulations();
                     format!("Current simulations: {:?}", current_simulations)
                 }
-            }));
+            }))
+}
+
+#[tokio::main]
+async fn main() {
+    env_logger::init();
+    let simulation_manager = Arc::new(SimulationManager::new());
+
+    let api = build_api(Arc::clone(&simulation_manager));
 
     warp::serve(api).run(([127, 0, 0, 1], 3030)).await;
 }
