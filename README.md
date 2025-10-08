@@ -1,12 +1,11 @@
 # Simulation Engine
 
-A high-performance Rust simulation engine for real-time physics simulations with a web API.  
-It provides real-time physics calculations, concurrent simulation management, and a REST API for external control.
+A high-performance Rust engine for real-time physics simulations with a web API.  
+It supports concurrent simulations, precise physics calculations, and external control via REST.
 
 ## Quick Start
 
-**Prerequisites:**  
-Rust 1.90.0 or later. Install from [rustup.rs](https://rustup.rs).
+**Requires:** Rust 1.90.0+ ([Install](https://rustup.rs))
 
 ```bash
 git clone https://github.com/bniladridas/simulation-engine
@@ -14,9 +13,9 @@ cd simulation-engine
 cargo run
 ````
 
-The server starts on `http://localhost:3030`.
+Server starts on **[http://localhost:3030](http://localhost:3030)**.
 
-## API Usage
+## API
 
 ### Start a Simulation
 
@@ -24,19 +23,17 @@ The server starts on `http://localhost:3030`.
 curl "http://localhost:3030/api?time_step=0.1&duration=10.0"
 ```
 
-### Example (Rust with reqwest)
+### Example (Rust + Reqwest)
 
 ```rust
 use reqwest::blocking;
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
-    // Start simulation
     let resp = blocking::get("http://localhost:3030/api?time_step=0.1&duration=10.0")?;
-    println!("{}", resp.text()?); // "Simulation started!"
+    println!("{}", resp.text()?);
 
-    // Stop simulation
     let resp = blocking::get("http://localhost:3030/stop")?;
-    println!("{}", resp.text()?); // "Simulation stopped!"
+    println!("{}", resp.text()?);
 
     Ok(())
 }
@@ -44,15 +41,15 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
 ### Endpoints
 
-| Method | Endpoint       | Description                    |
-| :----- | :------------- | :----------------------------- |
-| GET    | `/api`         | Start simulation (with params) |
-| GET    | `/stop`        | Stop simulation                |
-| GET    | `/pause`       | Pause simulation               |
-| GET    | `/reset`       | Reset simulation               |
-| GET    | `/simulations` | List simulations               |
+| Method | Endpoint       | Description      |
+| :----- | :------------- | :--------------- |
+| GET    | `/api`         | Start simulation |
+| GET    | `/stop`        | Stop simulation  |
+| GET    | `/pause`       | Pause simulation |
+| GET    | `/reset`       | Reset simulation |
+| GET    | `/simulations` | List simulations |
 
-Use the included Postman collection in `api/postman_collection.json` for testing.
+📁 Use the Postman collection in `api/postman_collection.json` for quick testing.
 
 ## Testing
 
@@ -62,26 +59,27 @@ Run all tests:
 cargo test
 ```
 
-Run specific test suites:
+Specific suites:
 
 ```bash
-cargo test --test simulation_tests  # Integration tests
-cargo test --test e2e_tests         # End-to-end tests
+cargo test --test simulation_tests  # Integration
+cargo test --test e2e_tests         # End-to-end
 ```
 
-Includes 3 unit tests, 5 integration tests, and 5 end-to-end tests for API endpoints.
+Includes 3 unit tests, 5 integration tests, and 5 end-to-end API tests.
 
-Run all quality checks locally (equivalent to CI pipeline):
+Run all local checks (same as CI):
 
 ```bash
 ./scripts/ci.sh
 ```
 
-This runs:
-- `cargo check` for compilation
-- `cargo test` for unit and integration tests
-- `cargo fmt --check` for code formatting (prompts to auto-fix if issues found)
-- `cargo clippy` for linting with warnings as errors
+Runs:
+
+* `cargo check` — compile check
+* `cargo test` — all tests
+* `cargo fmt --check` — formatting
+* `cargo clippy` — linting (treat warnings as errors)
 
 ## Conventional Commits
 
@@ -92,14 +90,23 @@ cp scripts/commit-msg .git/hooks/commit-msg
 chmod +x .git/hooks/commit-msg
 ```
 
-### Rules
+### Format
 
-* Start with type: `feat:`, `fix:`, `docs:`, `refactor:`, `chore:`
-* Lowercase, maximum 60 characters
+Use:
+
+```
+feat: short summary
+fix: resolve issue
+docs: update docs
+refactor: code restructure
+chore: misc tasks
+```
+
+Lowercase, ≤60 chars.
 
 ## Contributing
 
-Open issues or pull requests.
+Open an issue or PR.
 
 ## License
 
