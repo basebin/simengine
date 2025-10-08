@@ -1,5 +1,3 @@
- use nalgebra::Vector2;
-
 use nalgebra::Vector2;
 
 #[derive(Clone, Debug)]
@@ -83,7 +81,6 @@ impl PhysicsEngine {
                 }
             }
         }
-    }
     }
 
     pub fn simulate(&mut self, time_step: f32) {
