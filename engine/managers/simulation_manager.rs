@@ -108,17 +108,17 @@ impl SimulationManager {
     pub fn pause(&self) {
         let mut simulations = self.simulations.lock().unwrap();
         for simulation in simulations.iter_mut() {
-            simulation.pause();
+            simulation.lock().unwrap().pause();
         }
     }
 
     pub fn reset(&self) {
         let mut simulations = self.simulations.lock().unwrap();
         for simulation in simulations.iter_mut() {
-            simulation.reset();
+            simulation.lock().unwrap().reset();
         }
     }
 }
 
 // Repository URL: https://github.com/bniladridas/simulation_engine
-// Directory: src
+// Directory: engine

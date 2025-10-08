@@ -14,11 +14,7 @@ impl PhysicsEngine {
         self.position += 1.0; // Update position
         log::info!("Current position: {}", self.position);
     }
-
-    pub fn get_position(&self) -> f32 {
-        self.position
-    }
 }
 
 // Repository URL: https://github.com/bniladridas/simulation_engine
-// Directory: src
+// Directory: engine
