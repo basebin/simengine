@@ -33,16 +33,19 @@ Run all tests:
 ```bash
 cargo test
 ```
+Output: 10 tests passed (5 integration + 5 e2e)
 
 Run integration tests only:
 ```bash
 cargo test --test simulation_tests
 ```
+Output: 5 tests passed
 
 Run e2e tests only:
 ```bash
 cargo test --test e2e_tests
 ```
+Output: 5 tests passed
 
 Includes:
 - 5 integration tests for API endpoints (using warp::test)
