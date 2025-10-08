@@ -188,5 +188,4 @@ impl PhysicsEngine {
 //     }
 // }
 
-// Repository URL: https://github.com/bniladridas/simulation_engine
-// Directory: engine
+
