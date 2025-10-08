@@ -33,6 +33,20 @@ Start a simulation:
 curl "http://localhost:3030/api?time_step=0.1&duration=10.0"
 ```
 
+Example in Python:
+
+```python
+import requests
+
+# Start simulation
+response = requests.get("http://localhost:3030/api?time_step=0.1&duration=10.0")
+print(response.text)  # "Simulation started!"
+
+# Stop simulation
+response = requests.get("http://localhost:3030/stop")
+print(response.text)  # "Simulation stopped!"
+```
+
 Endpoints:
 
 - `GET /stop` - Stop simulation
