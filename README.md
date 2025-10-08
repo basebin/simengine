@@ -1,28 +1,30 @@
 # Simulation Engine
 
-A high-performance Rust simulation engine for real-time physics simulations with a web API. It provides real-time physics calculations, concurrent simulation management, and a REST API for external control.
+A high-performance Rust simulation engine for real-time physics simulations with a web API.  
+It provides real-time physics calculations, concurrent simulation management, and a REST API for external control.
 
 ## Quick Start
 
-Prerequisites: Rust 1.90.0 or later. Install from [rustup.rs](https://rustup.rs).
+**Prerequisites:**  
+Rust 1.90.0 or later. Install from [rustup.rs](https://rustup.rs).
 
 ```bash
 git clone https://github.com/bniladridas/simulation_engine
 cd simulation_engine
 cargo run
-```
+````
 
 The server starts on `http://localhost:3030`.
 
 ## API Usage
 
-Start a simulation:
+### Start a Simulation
 
 ```bash
 curl "http://localhost:3030/api?time_step=0.1&duration=10.0"
 ```
 
-Example in Rust (using reqwest):
+### Example (Rust with reqwest)
 
 ```rust
 use reqwest::blocking;
@@ -30,22 +32,24 @@ use reqwest::blocking;
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     // Start simulation
     let resp = blocking::get("http://localhost:3030/api?time_step=0.1&duration=10.0")?;
-    println!("{}", resp.text()?);  // "Simulation started!"
+    println!("{}", resp.text()?); // "Simulation started!"
 
     // Stop simulation
     let resp = blocking::get("http://localhost:3030/stop")?;
-    println!("{}", resp.text()?);  // "Simulation stopped!"
+    println!("{}", resp.text()?); // "Simulation stopped!"
 
     Ok(())
 }
 ```
 
-Endpoints:
+### Endpoints
 
-- `GET /stop` - Stop simulation
-- `GET /pause` - Pause simulation
-- `GET /reset` - Reset simulation
-- `GET /simulations` - List simulations
+| Method | Endpoint       | Description      |
+| :----- | :------------- | :--------------- |
+| GET    | `/stop`        | Stop simulation  |
+| GET    | `/pause`       | Pause simulation |
+| GET    | `/reset`       | Reset simulation |
+| GET    | `/simulations` | List simulations |
 
 Use the included Postman collection for testing.
 
@@ -82,8 +86,8 @@ chmod +x .git/hooks/commit-msg
 
 ### Rules
 
-- Start with type: `feat:`, `fix:`, `docs:`, `refactor:`, `chore:`
-- Lowercase, max 60 characters
+* Start with type: `feat:`, `fix:`, `docs:`, `refactor:`, `chore:`
+* Lowercase, maximum 60 characters
 
 ## Contributing
 
