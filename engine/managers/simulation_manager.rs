@@ -63,6 +63,12 @@ pub struct SimulationManager {
     simulations: Arc<Mutex<Vec<Arc<Mutex<Simulation>>>>>,
 }
 
+impl Default for SimulationManager {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl SimulationManager {
     pub fn new() -> Self {
         SimulationManager {

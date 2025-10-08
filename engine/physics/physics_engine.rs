@@ -24,6 +24,12 @@ pub struct PhysicsEngine {
     bounds: (f32, f32), // min and max position for wall collisions
 }
 
+impl Default for PhysicsEngine {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl PhysicsEngine {
     pub fn new() -> Self {
         PhysicsEngine {
@@ -116,7 +122,7 @@ mod tests {
     fn test_gravity() {
         let mut engine = PhysicsEngine::new();
         let time_step = 0.1;
-        let initial_velocity = 0.0;
+        let _initial_velocity = 0.0; // Not used, but for clarity
         engine.simulate(time_step);
         // After one step, velocity should be gravity * time_step
         let expected_velocity = -9.81 * time_step;
