@@ -119,3 +119,6 @@ jobs:
       - run: cargo release patch --execute --no-confirm --no-publish --no-push
       - run: git push origin main
       - run: git push origin --tags
+      - run: cargo build --release
+      - run: zip simulation-engine-${CARGO_RELEASE_TAG}-linux-x64.zip target/release/simulation_engine
+      - run: gh release create $CARGO_RELEASE_TAG --generate-notes --files simulation-engine-${CARGO_RELEASE_TAG}-linux-x64.zip
