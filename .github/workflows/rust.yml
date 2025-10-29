@@ -114,4 +114,4 @@ jobs:
           git config --global user.email "action@github.com"
           git config --global user.name "GitHub Action"
       - run: cargo install cargo-release
-      - run: cargo release --execute --no-confirm
+      - run: cargo release patch --execute --no-confirm
