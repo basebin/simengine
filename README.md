@@ -150,6 +150,16 @@ cargo build --features cxx
 
 Include the generated header and link against the library.
 
+## Automated Releases
+
+Releases are automated using GitHub Actions and `cargo-release`. On merges to `main` with conventional commits:
+
+- `feat:` commits bump minor version (e.g., 0.1.0 → 0.1.1)
+- `fix:` commits bump patch version (e.g., 0.1.0 → 0.1.1)
+- `BREAKING CHANGE:` in footer bumps major version
+
+The workflow creates tags, GitHub releases, and attaches built binaries.
+
 ## Contributing
 
 Open an issue or PR.
