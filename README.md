@@ -1,6 +1,6 @@
 # Simulation Engine
 
-A high-performance Rust engine for real-time physics simulations with a web API.  
+A high-performance Rust engine for real-time physics simulations with a web API.
 It supports concurrent simulations, precise physics calculations, and external control via REST.
 
 ## Quick Start
