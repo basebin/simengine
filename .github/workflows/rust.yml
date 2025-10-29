@@ -123,6 +123,6 @@ jobs:
       - run: git push origin --tags
       - run: cargo build --release
       - run: zip simulation-engine-${CARGO_RELEASE_TAG}-linux-x64.zip target/release/simulation_engine
-      - run: gh release create $CARGO_RELEASE_TAG simulation-engine-${CARGO_RELEASE_TAG}-linux-x64.zip --generate-notes
+      - run: gh release create $CARGO_RELEASE_TAG simulation-engine-${CARGO_RELEASE_TAG}-linux-x64.zip --generate-notes --verify-tag
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
