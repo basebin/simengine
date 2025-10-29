@@ -102,3 +102,16 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: cargo doc --no-deps
+
+  release:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - run: |
+          git config --global user.email "action@github.com"
+          git config --global user.name "GitHub Action"
+      - run: cargo install cargo-release
+      - run: cargo release --execute --no-confirm
