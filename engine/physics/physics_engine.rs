@@ -1,6 +1,10 @@
 use nalgebra::Vector2;
 
-// Temporary inline implementations until module issue is resolved
+// TODO: These are duplicated from the numerics module.
+// The proper solution is to import from crate::numerics::*,
+// but there's currently a module resolution issue preventing this.
+// Once resolved, these inline implementations should be removed
+// and replaced with: use crate::numerics::*;
 const MIN_DISTANCE_EPSILON: f32 = 1e-6;
 const MAX_VELOCITY: f32 = 1000.0;
 
