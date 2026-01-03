@@ -1901,7 +1901,7 @@ dependencies = [
 
 [[package]]
 name = "simulation_engine"
-version = "0.1.11"
+version = "0.1.12"
 dependencies = [
  "criterion",
  "cxx",
