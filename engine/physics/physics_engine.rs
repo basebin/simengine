@@ -66,7 +66,7 @@ impl PhysicsEngine {
                 let rad2 = self.objects[j].radius;
                 let diff = pos1 - pos2;
                 let distance = diff.norm();
-                if distance < rad1 + rad2 && distance > 0.0 {
+                if distance < rad1 + rad2 && distance > 1e-6 {
                     // Elastic collision in 2D
                     let m1 = self.objects[i].mass;
                     let m2 = self.objects[j].mass;
