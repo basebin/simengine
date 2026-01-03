@@ -125,7 +125,9 @@ jobs:
       - run: zip simulation-engine-${CARGO_RELEASE_TAG}-linux-x64.zip target/release/simulation_engine
       - run: |
           if ! gh release view $CARGO_RELEASE_TAG > /dev/null 2>&1; then
-            gh release create $CARGO_RELEASE_TAG simulation-engine-${CARGO_RELEASE_TAG}-linux-x64.zip --generate-notes --verify-tag
+            gh release create $CARGO_RELEASE_TAG \
+              simulation-engine-${CARGO_RELEASE_TAG}-linux-x64.zip \
+              --generate-notes --verify-tag
           fi
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

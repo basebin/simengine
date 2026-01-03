@@ -1,4 +1,6 @@
+pub mod constraints;
 pub mod managers;
+pub mod numerics;
 pub mod physics;
 
 #[cfg(feature = "python")]

@@ -190,9 +190,13 @@ mod tests {
 
     #[test]
     fn test_cleanup_stats() {
-        let mut engine = PhysicsEngine::new();
-        engine.add_object(Vector2::new(0.0, 0.0), Vector2::new(1.0, 0.0), 1.0);
-        engine.add_object(Vector2::new(100.0, 100.0), Vector2::new(0.0, 0.0), 1.0); // Stationary, far away
+        let mut engine = PhysicsEngine::new().unwrap();
+        engine
+            .add_object(Vector2::new(0.0, 0.0), Vector2::new(1.0, 0.0), 1.0)
+            .unwrap();
+        engine
+            .add_object(Vector2::new(100.0, 100.0), Vector2::new(0.0, 0.0), 1.0)
+            .unwrap(); // Stationary, far away
 
         let cleaner = DataCleaner::new().with_cleanup_threshold(10);
         let stats = cleaner.get_stats(&engine);
@@ -206,9 +210,13 @@ mod tests {
 
     #[test]
     fn test_cleanup_inactive_objects() {
-        let mut engine = PhysicsEngine::new();
-        engine.add_object(Vector2::new(0.0, 0.0), Vector2::new(1.0, 0.0), 1.0); // Active
-        engine.add_object(Vector2::new(100.0, 100.0), Vector2::new(0.0, 0.0), 1.0); // Inactive, far away
+        let mut engine = PhysicsEngine::new().unwrap();
+        engine
+            .add_object(Vector2::new(0.0, 0.0), Vector2::new(1.0, 0.0), 1.0)
+            .unwrap(); // Active
+        engine
+            .add_object(Vector2::new(100.0, 100.0), Vector2::new(0.0, 0.0), 1.0)
+            .unwrap(); // Inactive, far away
 
         let cleaner = DataCleaner::new();
         let removed_count = cleaner.cleanup_inactive_objects(&mut engine, 0.0);
@@ -222,11 +230,13 @@ mod tests {
 
     #[test]
     fn test_needs_cleanup() {
-        let mut engine = PhysicsEngine::new();
+        let mut engine = PhysicsEngine::new().unwrap();
 
         // Add many objects to trigger cleanup threshold
         for i in 0..1500 {
-            engine.add_object(Vector2::new(i as f32, 0.0), Vector2::new(0.0, 0.0), 1.0);
+            engine
+                .add_object(Vector2::new(i as f32, 0.0), Vector2::new(0.0, 0.0), 1.0)
+                .unwrap();
         }
 
         let cleaner = DataCleaner::new().with_cleanup_threshold(1000);

@@ -11,24 +11,26 @@ fn test_simulation_manager_creation() {
 
 #[test]
 fn test_physics_engine_creation() {
-    let engine = PhysicsEngine::new();
+    let engine = PhysicsEngine::new().unwrap();
     let objects = engine.get_objects();
     assert_eq!(objects.len(), 1); // Default object
 }
 
 #[test]
 fn test_physics_engine_add_object() {
-    let mut engine = PhysicsEngine::new();
+    let mut engine = PhysicsEngine::new().unwrap();
     let initial_count = engine.get_objects().len();
-    engine.add_object(Vector2::new(1.0, 2.0), Vector2::new(3.0, 4.0), 5.0);
+    engine
+        .add_object(Vector2::new(1.0, 2.0), Vector2::new(3.0, 4.0), 5.0)
+        .unwrap();
     assert_eq!(engine.get_objects().len(), initial_count + 1);
 }
 
 #[test]
 fn test_physics_engine_simulate() {
-    let mut engine = PhysicsEngine::new();
+    let mut engine = PhysicsEngine::new().unwrap();
     let initial_pos = engine.get_objects()[0].position;
-    engine.simulate(0.1);
+    engine.simulate(0.1).unwrap();
     let new_pos = engine.get_objects()[0].position;
     assert_ne!(initial_pos, new_pos); // Position should change due to gravity
 }
