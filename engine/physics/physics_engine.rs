@@ -1,5 +1,8 @@
 use nalgebra::Vector2;
 
+/// Minimum distance threshold to avoid division by very small values in collision calculations
+const MIN_DISTANCE_EPSILON: f32 = 1e-6;
+
 #[derive(Clone, Debug)]
 pub struct Object {
     pub position: Vector2<f32>,
@@ -66,7 +69,7 @@ impl PhysicsEngine {
                 let rad2 = self.objects[j].radius;
                 let diff = pos1 - pos2;
                 let distance = diff.norm();
-                if distance < rad1 + rad2 && distance > 1e-6 {
+                if distance < rad1 + rad2 && distance > MIN_DISTANCE_EPSILON {
                     // Elastic collision in 2D
                     let m1 = self.objects[i].mass;
                     let m2 = self.objects[j].mass;
@@ -123,7 +126,7 @@ impl PhysicsEngine {
         }
 
         // Handle object-object collisions
-        // self.handle_collisions();
+        self.handle_collisions();
 
         for obj in &self.objects {
             log::info!(
