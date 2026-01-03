@@ -26,7 +26,7 @@ impl Simulation {
             state: SimulationState::Stopped,
             time_step,
             duration,
-            physics_engine: PhysicsEngine::new(),
+            physics_engine: PhysicsEngine::new().expect("Failed to create physics engine"),
         }
     }
 
@@ -35,7 +35,9 @@ impl Simulation {
         println!("Simulation {} started", self.id);
         while self.state == SimulationState::Running {
             self.update();
-            self.physics_engine.simulate(self.time_step);
+            self.physics_engine
+                .simulate(self.time_step)
+                .expect("Simulation step failed");
             thread::sleep(Duration::from_millis((self.time_step * 1000.0) as u64));
         }
     }

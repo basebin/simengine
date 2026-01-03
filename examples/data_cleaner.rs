@@ -4,7 +4,7 @@ use simulation_engine::physics::{data_cleaner::DataCleaner, physics_engine::Phys
 fn main() {
     println!("Starting data cleaner example...");
 
-    let mut engine = PhysicsEngine::new();
+    let mut engine = PhysicsEngine::new().expect("Failed to create physics engine");
 
     // Add many objects to simulate a busy simulation
     println!("Adding 2000 objects to simulation...");
@@ -18,7 +18,9 @@ fn main() {
             // Most objects are stationary (inactive)
             Vector2::new(0.0, 0.0)
         };
-        engine.add_object(position, velocity, 1.0);
+        engine
+            .add_object(position, velocity, 1.0)
+            .expect("Failed to add object");
     }
 
     // Create data cleaner
@@ -37,7 +39,7 @@ fn main() {
     // Run simulation for a bit to let objects move
     println!("\nRunning simulation...");
     for _ in 0..50 {
-        engine.simulate(0.1);
+        engine.simulate(0.1).expect("Simulation failed");
     }
 
     // Check cleanup status
