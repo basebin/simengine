@@ -59,8 +59,11 @@ impl PhysicsConstraint {
                 *position = *fixed_pos;
                 *velocity = Vector2::zeros();
             }
-            _ => {
-                // Other constraint types not yet implemented
+            Constraint::Distance { .. } => {
+                unimplemented!("Distance constraint not yet implemented");
+            }
+            Constraint::Axis { .. } => {
+                unimplemented!("Axis constraint not yet implemented");
             }
         }
     }

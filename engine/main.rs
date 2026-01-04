@@ -1,14 +1,12 @@
 extern crate env_logger;
 extern crate log;
+extern crate simulation_engine;
 
 use serde::Deserialize;
 use std::sync::Arc;
 use warp::Filter;
 
-mod managers;
-mod physics;
-
-use managers::simulation_manager::SimulationManager;
+use simulation_engine::managers::simulation_manager::SimulationManager;
 
 #[derive(Deserialize)]
 pub struct SimulationParams {

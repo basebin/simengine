@@ -19,3 +19,12 @@ pub const EARTH_GRAVITY: f32 = 9.81;
 /// Time step epsilon for floating point comparisons
 #[allow(dead_code)]
 pub const TIME_STEP_EPSILON: f32 = 1e-7;
+
+/// Perfectly elastic restitution coefficient (no energy loss on collision)
+pub const PERFECTLY_ELASTIC_RESTITUTION: f32 = 1.0;
+
+/// Damping factor applied when objects bounce off walls
+pub const WALL_BOUNCE_DAMPING_FACTOR: f32 = 0.8;
+
+/// Maximum coordinate value for position clamping to prevent numerical issues
+pub const MAX_COORDINATE_VALUE: f32 = 1e6;
