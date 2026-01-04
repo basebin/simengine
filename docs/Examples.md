@@ -75,11 +75,11 @@ fn main() {
 ## Integration with External Systems
 
 ```rust
-use simulation_engine::physics::PhysicsEngine;
+use simulation_engine::physics::{PhysicsEngine, Object};
 use nalgebra::Vector2;
 
 // Example: Reading data from a file or network
-fn load_objects_from_data(data: Vec<(f32, f32, f32, f32, f32)>) -> Vec<Object> {
+fn load_objects_from_data(data: Vec<(f32, f32, f32, f32, f32)>) -> Result<Vec<Object>, String> {
     data.into_iter()
         .map(|(x, y, vx, vy, mass)| {
             Object::new(Vector2::new(x, y), Vector2::new(vx, vy), mass)
@@ -87,18 +87,20 @@ fn load_objects_from_data(data: Vec<(f32, f32, f32, f32, f32)>) -> Vec<Object> {
         .collect()
 }
 
-fn main() {
+fn main() -> Result<(), String> {
     let mut engine = PhysicsEngine::new();
 
     // Load objects from external source
     let data = vec![(0.0, 0.0, 1.0, 0.0, 1.0), (10.0, 0.0, -1.0, 0.0, 1.5)];
-    let objects = load_objects_from_data(data);
+    let objects = load_objects_from_data(data)?;
 
     for obj in objects {
-        engine.add_object(obj.position, obj.velocity, obj.mass);
+        engine.add_object(obj.position, obj.velocity, obj.mass)?;
     }
 
     // Simulate
-    engine.simulate(0.1);
+    engine.simulate(0.1)?;
+
+    Ok(())
 }
 ```
