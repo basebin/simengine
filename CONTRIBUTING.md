@@ -78,6 +78,43 @@ git checkout -b fix/issue-number-description
 - Add examples for new features
 - Keep API documentation current
 
+## Pull Request Title Format
+
+Use the following format for pull request titles:
+
+```
+<type>[<scope>] :: <short, imperative description>
+```
+
+### Breakdown
+
+* **`<type>`** — what kind of change this is
+  Common values:
+  * `feat` – new functionality
+  * `fix` – bug or build fix
+  * `refactor` – internal restructuring, no behavior change
+  * `perf` – performance improvement
+  * `docs` – documentation only
+  * `chore` – tooling, CI, deps
+  * `test` – tests only
+
+* **`<scope>`** — affected area (keep it short, lowercase)
+  Examples: `physics`, `engine`, `ci`, `ui`
+
+* **`::`** — visual separator
+
+* **`<short description>`**
+  * Imperative mood ("add", "fix", "improve", "refactor")
+  * ≤ 60–70 characters if possible
+  * No period at the end
+
+### Examples
+
+* `feat[physics] :: improve numerical stability`
+* `fix[engine] :: resolve collision detection bug`
+* `refactor[ci] :: update pre-commit hooks`
+* `chore[deps] :: upgrade rust dependencies`
+
 ## Commit Message Format
 
 We use [Conventional Commits](https://conventionalcommits.org/):

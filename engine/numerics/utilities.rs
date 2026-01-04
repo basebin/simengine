@@ -1,6 +1,7 @@
+//! Numerical utilities and helper functions
+//! Provides safe mathematical operations and validation functions
+
 use crate::numerics::constants::*;
-/// Numerical utilities and helper functions
-/// Provides safe mathematical operations and validation functions
 use nalgebra::Vector2;
 
 /// Clamps a value between min and max

@@ -1,47 +1,5 @@
+use crate::numerics::*;
 use nalgebra::Vector2;
-
-// TODO: These are duplicated from the numerics module.
-// The proper solution is to import from crate::numerics::*,
-// but there's currently a module resolution issue preventing this.
-// Once resolved, these inline implementations should be removed
-// and replaced with: use crate::numerics::*;
-const MIN_DISTANCE_EPSILON: f32 = 1e-6;
-const MAX_VELOCITY: f32 = 1000.0;
-
-fn clamp<T: PartialOrd>(value: T, min: T, max: T) -> T {
-    if value < min {
-        min
-    } else if value > max {
-        max
-    } else {
-        value
-    }
-}
-
-fn safe_divide(numerator: f32, denominator: f32, default: f32) -> f32 {
-    if denominator.abs() < MIN_DISTANCE_EPSILON {
-        default
-    } else {
-        numerator / denominator
-    }
-}
-
-fn clamp_velocity(velocity: &mut Vector2<f32>) {
-    velocity.x = clamp(velocity.x, -MAX_VELOCITY, MAX_VELOCITY);
-    velocity.y = clamp(velocity.y, -MAX_VELOCITY, MAX_VELOCITY);
-}
-
-fn validate_vector(vec: &Vector2<f32>) -> Result<(), String> {
-    if !vec.x.is_finite() || !vec.y.is_finite() {
-        Err(format!("Vector contains non-finite values: {:?}", vec))
-    } else {
-        Ok(())
-    }
-}
-
-fn approx_eq(a: f32, b: f32, epsilon: f32) -> bool {
-    (a - b).abs() < epsilon
-}
 
 #[derive(Clone, Debug)]
 pub struct Object {
@@ -53,28 +11,9 @@ pub struct Object {
 
 impl Object {
     pub fn new(position: Vector2<f32>, velocity: Vector2<f32>, mass: f32) -> Result<Self, String> {
-        // Temporary inline validation
-        if mass < 1e-3 {
-            return Err(format!("Mass {} is below minimum threshold {}", mass, 1e-3));
-        }
-        if mass > 1e6 {
-            return Err(format!("Mass {} exceeds maximum threshold {}", mass, 1e6));
-        }
-        if !mass.is_finite() {
-            return Err("Mass must be finite".to_string());
-        }
-        if !position.x.is_finite() || !position.y.is_finite() {
-            return Err(format!(
-                "Position contains non-finite values: {:?}",
-                position
-            ));
-        }
-        if !velocity.x.is_finite() || !velocity.y.is_finite() {
-            return Err(format!(
-                "Velocity contains non-finite values: {:?}",
-                velocity
-            ));
-        }
+        let mass = validate_mass(mass)?;
+        validate_vector(&position)?;
+        validate_vector(&velocity)?;
 
         Ok(Object {
             position,
@@ -103,8 +42,8 @@ impl PhysicsEngine {
         let default_object = Object::new(Vector2::new(0.0, 0.0), Vector2::new(0.0, 0.0), 1.0)?;
 
         Ok(PhysicsEngine {
-            objects: vec![default_object],     // default object
-            gravity: Vector2::new(0.0, -9.81), // downward acceleration
+            objects: vec![default_object],              // default object
+            gravity: Vector2::new(0.0, -EARTH_GRAVITY), // downward acceleration
             bounds: (Vector2::new(-100.0, -100.0), Vector2::new(100.0, 100.0)),
         })
     }
@@ -185,8 +124,8 @@ impl PhysicsEngine {
         // Elastic collision impulse calculation
         let m1 = self.objects[i].mass;
         let m2 = self.objects[j].mass;
-        let restitution = 1.0; // perfectly elastic
-        let impulse_scalar = -(1.0 + restitution) * velocity_along_normal * (m1 * m2) / (m1 + m2);
+        let restitution = PERFECTLY_ELASTIC_RESTITUTION;
+        let impulse_scalar = -(1.0 + restitution) * velocity_along_normal / (1.0 / m1 + 1.0 / m2);
         let impulse = impulse_scalar * normal;
 
         // Calculate separation to prevent overlap
@@ -251,17 +190,21 @@ impl PhysicsEngine {
             obj.position.x = clamp(obj.position.x, self.bounds.0.x, self.bounds.1.x);
             obj.position.y = clamp(obj.position.y, self.bounds.0.y, self.bounds.1.y);
 
-            // Bounce off walls with damping
-            if approx_eq(obj.position.x, self.bounds.0.x, MIN_DISTANCE_EPSILON)
-                || approx_eq(obj.position.x, self.bounds.1.x, MIN_DISTANCE_EPSILON)
+            // Bounce off walls with damping only if moving towards the boundary
+            if (approx_eq(obj.position.x, self.bounds.0.x, MIN_DISTANCE_EPSILON)
+                && obj.velocity.x < 0.0)
+                || (approx_eq(obj.position.x, self.bounds.1.x, MIN_DISTANCE_EPSILON)
+                    && obj.velocity.x > 0.0)
             {
-                obj.velocity.x = -obj.velocity.x * 0.8;
+                obj.velocity.x = -obj.velocity.x * WALL_BOUNCE_DAMPING_FACTOR;
                 bounced = true;
             }
-            if approx_eq(obj.position.y, self.bounds.0.y, MIN_DISTANCE_EPSILON)
-                || approx_eq(obj.position.y, self.bounds.1.y, MIN_DISTANCE_EPSILON)
+            if (approx_eq(obj.position.y, self.bounds.0.y, MIN_DISTANCE_EPSILON)
+                && obj.velocity.y < 0.0)
+                || (approx_eq(obj.position.y, self.bounds.1.y, MIN_DISTANCE_EPSILON)
+                    && obj.velocity.y > 0.0)
             {
-                obj.velocity.y = -obj.velocity.y * 0.8;
+                obj.velocity.y = -obj.velocity.y * WALL_BOUNCE_DAMPING_FACTOR;
                 bounced = true;
             }
 
@@ -276,8 +219,8 @@ impl PhysicsEngine {
         for obj in &mut self.objects {
             clamp_velocity(&mut obj.velocity);
             // Ensure position stays within reasonable bounds (expand if needed)
-            obj.position.x = clamp(obj.position.x, -1e6, 1e6);
-            obj.position.y = clamp(obj.position.y, -1e6, 1e6);
+            obj.position.x = clamp(obj.position.x, -MAX_COORDINATE_VALUE, MAX_COORDINATE_VALUE);
+            obj.position.y = clamp(obj.position.y, -MAX_COORDINATE_VALUE, MAX_COORDINATE_VALUE);
         }
     }
 
@@ -302,7 +245,7 @@ mod tests {
         let time_step = 0.1;
         engine.simulate(time_step).unwrap();
         // After one step, velocity.y should be gravity.y * time_step
-        let expected_velocity_y = -9.81 * time_step;
+        let expected_velocity_y = -EARTH_GRAVITY * time_step;
         assert!((engine.objects[0].velocity.y - expected_velocity_y).abs() < 0.01);
         // Position.y should be velocity.y * time_step
         let expected_position_y = expected_velocity_y * time_step;

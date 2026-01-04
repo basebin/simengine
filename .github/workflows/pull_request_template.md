@@ -1,3 +1,5 @@
+<!-- PR Title Format: type[scope] :: short imperative description (e.g., feat[physics] :: add collision detection) -->
+
 ## Summary
 <!-- Brief, high-level description of what this PR changes -->
 -
