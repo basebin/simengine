@@ -17,3 +17,11 @@ repos:
   - id: fix-byte-order-marker
   - id: mixed-line-ending
   - id: requirements-txt-fixer
+- repo: local
+  hooks:
+  - id: clippy
+    name: clippy
+    entry: cargo clippy
+    language: system
+    pass_filenames: false
+    files: \.rs$
