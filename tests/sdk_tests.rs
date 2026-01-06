@@ -38,7 +38,7 @@ fn test_physics_engine_simulate() {
 #[test]
 fn test_simulation_manager_start_simulation() {
     let manager = SimulationManager::new();
-    manager.start_simulation(0.01, 0.1); // Very short simulation
+    let _ = manager.start_simulation(0.01, 0.1); // Very short simulation
     std::thread::sleep(std::time::Duration::from_millis(200)); // Wait for completion
     let _simulations = manager.get_simulations();
     // Note: This test is timing-dependent and may be flaky

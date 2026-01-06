@@ -25,8 +25,10 @@ fn build_api(
             move |params: SimulationParams| {
                 let time_step = params.time_step.unwrap_or(0.1);
                 let duration = params.duration.unwrap_or(10.0);
-                simulation_manager.start_simulation(time_step, duration);
-                "Simulation started!"
+                match simulation_manager.start_simulation(time_step, duration) {
+                    Ok(()) => "Simulation started!",
+                    Err(_) => "Failed to start simulation",
+                }
             }
         })
         .or(warp::path("stop").and(warp::get()).map({

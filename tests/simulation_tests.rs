@@ -26,7 +26,7 @@ mod tests {
                     move |params: SimulationParams| {
                         let time_step = params.time_step.unwrap_or(0.1);
                         let duration = params.duration.unwrap_or(10.0);
-                        simulation_manager.start_simulation(time_step, duration);
+                        let _ = simulation_manager.start_simulation(time_step, duration);
                         "Simulation started!"
                     }
                 });

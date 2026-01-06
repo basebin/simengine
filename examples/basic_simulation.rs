@@ -8,7 +8,7 @@ fn main() {
     let manager = SimulationManager::new();
 
     // Start a simulation
-    manager.start_simulation(0.01, 2.0); // 0.01s time step, 2s duration
+    let _ = manager.start_simulation(0.01, 2.0); // 0.01s time step, 2s duration
 
     // Wait for simulation to complete
     thread::sleep(Duration::from_secs(3));
