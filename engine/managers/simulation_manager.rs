@@ -5,6 +5,12 @@ use std::time::Duration;
 
 const MAX_SIMULATIONS: usize = 5;
 
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum SimulationStartError {
+    InvalidParameters,
+    MaxSimulationsReached,
+}
+
 #[derive(Clone, Debug, PartialEq)]
 pub enum SimulationState {
     Running,
@@ -82,13 +88,17 @@ impl SimulationManager {
 
     /// Starts a new simulation with the given time step and duration.
     /// This method spawns a new thread to run the simulation.
-    pub fn start_simulation(&self, time_step: f32, duration: f32) {
+    pub fn start_simulation(
+        &self,
+        time_step: f32,
+        duration: f32,
+    ) -> Result<(), SimulationStartError> {
         if time_step <= 0.0 || duration <= 0.0 {
-            return;
+            return Err(SimulationStartError::InvalidParameters);
         }
         let mut simulations = self.simulations.lock().unwrap();
         if simulations.len() >= MAX_SIMULATIONS {
-            return;
+            return Err(SimulationStartError::MaxSimulationsReached);
         }
         let new_simulation = Arc::new(Mutex::new(Simulation::new(
             simulations.len() as u32 + 1,
@@ -103,6 +113,7 @@ impl SimulationManager {
             }
         });
         simulations.push(Arc::clone(&new_simulation));
+        Ok(())
     }
 
     pub fn stop_simulation(&self) {
