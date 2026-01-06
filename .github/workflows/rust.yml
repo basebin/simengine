@@ -117,11 +117,9 @@ jobs:
       - run: |
           git config --global user.email "action@github.com"
           git config --global user.name "GitHub Action"
-      - run: cargo install cargo-release
-      - run: cargo release patch --execute --no-confirm --no-publish --no-push
-      - run: git push origin main
-      - run: git push origin --tags
-      - run: cargo build --release
+       - run: cargo install cargo-release
+       - run: cargo release patch --execute --no-confirm --no-publish --no-push
+       - run: cargo build --release
       - run: zip simulation-engine-${CARGO_RELEASE_TAG}-linux-x64.zip target/release/simulation_engine
       - run: |
           if ! gh release view $CARGO_RELEASE_TAG > /dev/null 2>&1; then
