@@ -3,6 +3,8 @@ use std::sync::{Arc, Mutex};
 use std::thread;
 use std::time::Duration;
 
+const MAX_SIMULATIONS: usize = 5;
+
 #[derive(Clone, Debug, PartialEq)]
 pub enum SimulationState {
     Running,
@@ -85,6 +87,9 @@ impl SimulationManager {
             return;
         }
         let mut simulations = self.simulations.lock().unwrap();
+        if simulations.len() >= MAX_SIMULATIONS {
+            return;
+        }
         let new_simulation = Arc::new(Mutex::new(Simulation::new(
             simulations.len() as u32 + 1,
             time_step,
@@ -102,10 +107,10 @@ impl SimulationManager {
 
     pub fn stop_simulation(&self) {
         let mut simulations = self.simulations.lock().unwrap();
-        if let Some(sim_arc) = simulations.last() {
+        for sim_arc in simulations.iter() {
             sim_arc.lock().unwrap().state = SimulationState::Stopped;
         }
-        simulations.pop();
+        simulations.clear();
     }
 
     pub fn get_simulations(&self) -> Vec<Simulation> {
