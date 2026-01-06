@@ -1,4 +1,5 @@
 use crate::physics::physics_engine::PhysicsEngine;
+use std::sync::atomic::{AtomicU32, Ordering};
 use std::sync::{Arc, Mutex};
 use std::thread;
 use std::time::Duration;
@@ -71,6 +72,7 @@ impl Simulation {
 #[derive(Clone)]
 pub struct SimulationManager {
     simulations: Arc<Mutex<Vec<Arc<Mutex<Simulation>>>>>,
+    next_id: Arc<AtomicU32>,
 }
 
 impl Default for SimulationManager {
@@ -83,6 +85,7 @@ impl SimulationManager {
     pub fn new() -> Self {
         SimulationManager {
             simulations: Arc::new(Mutex::new(Vec::new())),
+            next_id: Arc::new(AtomicU32::new(1)),
         }
     }
 
@@ -101,7 +104,7 @@ impl SimulationManager {
             return Err(SimulationStartError::MaxSimulationsReached);
         }
         let new_simulation = Arc::new(Mutex::new(Simulation::new(
-            simulations.len() as u32 + 1,
+            self.next_id.fetch_add(1, Ordering::Relaxed),
             time_step,
             duration,
         )));
