@@ -1,6 +1,6 @@
 [package]
 name = "simulation_engine"
-version = "0.1.14"
+version = "0.1.15"
 edition = "2021"
 description = "A high-performance Rust engine for real-time physics simulations"
 license = "MIT"
