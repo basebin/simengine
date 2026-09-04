@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="https://raw.githubusercontent.com/basebin/simengine/main/.github/assets/thumbnail.png" alt="simengine" width="100%">
+</p>
+
 # Simulation Engine
 
 A high-performance Rust engine for real-time physics simulations with a web API.
