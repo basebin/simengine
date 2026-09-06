@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/basebin/simengine/main/.github/assets/thumbnail.png" alt="simengine" width="100%">
+  <img src="https://raw.githubusercontent.com/Coccinella-Labs/simengine/main/.github/assets/thumbnail.png" alt="simengine" width="100%">
 </p>
 
 # Simulation Engine
